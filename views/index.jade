@@ -3,3 +3,11 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  .container
+    form(method="POST", action="/upload", enctype="multipart/form-data")
+      .form-group
+        label.control-label File
+        .col-md-10
+          input(type="file", name="file")
+      button(type="submit") Upload
