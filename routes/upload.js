@@ -14,7 +14,8 @@ var upload = multer({
 })
 
 router.post('/', upload.single('file'), function(req, res) {
-  res.json({ 'result': 'success!' });
+  res.json({ 'result': 'success!',
+             'tag': req.param('tag') });
 });
 
 module.exports = router;
