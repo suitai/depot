@@ -1,17 +1,25 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  ul.nav.nav-tabs(role="tablist")
+    li.nav-item.active
+      a.nav-link.active(data-toggle="tab", href="#home", role="tab", aria-controls="home", aria-selected="true") Home
+    li.nav-item.active
+      a.nav-link(data-toggle="tab", href="#upload" role="tab", aria-controls="upload", aria-selected="false") Upload
 
-  .container
-    form(method="POST", action="/upload", enctype="multipart/form-data")
-      .form-group
-        label.control-label Tag
-        .col-md-10
-          input(type="text", name="tag")
-      .form-group
-        label.control-label File
-        .col-md-10
-          input(type="file", name="file")
-      button(type="submit") Upload
+  div.tab-content
+    div.tab-pane.fade.show.active#home(role="tabpanel", aria-labelledby="home-tab")
+      h1= title
+      p Welcome to #{title}
+    div.tab-pane.fade#upload(role="tabpanel", aria-labelledby="upload-tab")
+      .container
+        form(method="POST", action="/upload", enctype="multipart/form-data")
+          .form-group
+            label.control-label Tag
+            .col-md-10
+              input(type="text", name="tag")
+          .form-group
+            label.control-label File
+            .col-md-10
+              input(type="file", name="file")
+          button(type="submit") Upload
