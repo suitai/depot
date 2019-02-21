@@ -12,14 +12,4 @@ block content
       h1= title
       p Welcome to #{title}
     div.tab-pane.fade#upload(role="tabpanel", aria-labelledby="upload-tab")
-      .container
-        form(method="POST", action="/upload", enctype="multipart/form-data")
-          .form-group
-            label.control-label Tag
-            .col-md-10
-              input(type="text", name="tag")
-          .form-group
-            label.control-label File
-            .col-md-10
-              input(type="file", name="file")
-          button(type="submit") Upload
+      include upload
