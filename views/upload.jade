@@ -1,5 +1,10 @@
 form(method="POST", action="/upload", enctype="multipart/form-data")
   .form-group
+    label(for="SelectCategory") Category
+    select.form-control#SelectCategory
+      each item in category
+        option= item
+  .form-group
     label(for="InputTag") Tag
     input.form-control#InputTag(type="text", name="tag")
   .form-group
