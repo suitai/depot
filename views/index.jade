@@ -9,7 +9,7 @@ block content
 
   div.tab-content
     div.tab-pane.fade.show.active#home(role="tabpanel", aria-labelledby="home-tab")
-      h1= title
-      p Welcome to #{title}
+      include home
+
     div.tab-pane.fade#upload(role="tabpanel", aria-labelledby="upload-tab")
       include upload
