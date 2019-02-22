@@ -4,5 +4,5 @@ form(method="POST", action="/upload", enctype="multipart/form-data")
     input.form-control#InputTag(type="text", name="tag")
   .form-group
     label(for="InputFile") File
-    input.form-control-file#InputFile(type="file", name="file")
+    input.form-control-file#InputFile(type="file", name="file", multiple)
   button.btn.btn-primary(type="submit") Upload

@@ -13,7 +13,7 @@ var upload = multer({
   })
 })
 
-router.post('/', upload.single('file'), function(req, res) {
+router.post('/', upload.array('file', 12), function(req, res, next) {
   res.json({ 'result': 'success!',
              'tag': req.param('tag') });
 });
