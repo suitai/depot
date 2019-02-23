@@ -12,9 +12,9 @@ var upload = multer({
       var extension = path.extname(file.originalname);
       var filetype = 'Others';
       var filetypes = config.get('Filetype');
-      for (key in filetypes) {
-        if (filetypes[key]['extension'].includes(extension)) {
-          filetype = key;
+      for (type in filetypes) {
+        if (filetypes[type]['extension'].includes(extension)) {
+          filetype = type;
         }
       }
       var dir = path.join('public/ftp', req.body.directory, filetype);
