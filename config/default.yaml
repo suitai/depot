@@ -5,6 +5,7 @@ Directory:
 Filetype:
   Packages:
     extension: [ .rpm, .tar, .gz ]
+    script: createrepo ${repodir}
   Documents:
     extension: [ .md, .txt, .pdf, .doc, .docx, .ppt, .pptx ]
   Pictures:
