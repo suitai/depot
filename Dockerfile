@@ -2,7 +2,8 @@ FROM centos/nodejs-8-centos7:latest
 USER root
 
 ENV APP_ROOT=/opt/app-root/src/express \
-    PATH=/opt/rh/rh-nodejs8/root/usr/bin:$PATH
+    PATH=/opt/rh/rh-nodejs8/root/usr/bin:$PATH \
+    UPLOAD_DIR=public/ftp
 
 WORKDIR $APP_ROOT
 COPY *.json $APP_ROOT/

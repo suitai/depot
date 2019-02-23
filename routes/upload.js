@@ -6,6 +6,8 @@ var fs = require('fs-extra');
 var path = require('path');
 var config = require('config');
 
+const uploadDir = process.env.UPLOAD_DIR
+
 var upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,7 +19,7 @@ var upload = multer({
           filetype = type;
         }
       }
-      var dir = path.join('public/ftp', req.body.directory, filetype);
+      var dir = path.join(uploadDir, req.body.directory, filetype);
       if (!fs.existsSync(dir)) {
         fs.mkdirsSync(dir);
       }
