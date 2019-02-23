@@ -1,8 +1,8 @@
 form(method="POST", action="/upload", enctype="multipart/form-data")
   .form-group
-    label(for="SelectCategory") Category
-    select.form-control#SelectCategory
-      each item in category
+    label(for="SelectDirectory") Directory
+    select.form-control#SelectDirectory(name='directory')
+      each item in directory
         option= item
   .form-group
     label(for="InputTag") Tag
