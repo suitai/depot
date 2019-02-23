@@ -1,7 +1,7 @@
 FROM centos/nodejs-8-centos7:latest
 USER root
 
-ENV APP_ROOT=/opt/app-root/src/express \
+ENV APP_ROOT=/opt/app-root/src/depot \
     PATH=/opt/rh/rh-nodejs8/root/usr/bin:$PATH \
     UPLOAD_DIR=public/ftp
 
