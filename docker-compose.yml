@@ -7,5 +7,5 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./public/ftp:/opt/app-root/src/express/public/ftp
-      - ./config:/opt/app-root/src/express/config
+      - ./public/ftp:/opt/app-root/src/depot/public/ftp
+      - ./config:/opt/app-root/src/depot/config
