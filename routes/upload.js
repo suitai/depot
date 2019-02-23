@@ -36,9 +36,13 @@ const upload = multer({
 })
 
 router.post('/', upload.array('file', 12), (req, res, next) => {
+  req.files.forEach((file) => {
+    console.log(`file: ${file.path}`);
+  });
   typeSet.forEach((type) => {
     const execOpt = {cwd: uploadDir, env: {repodir: path.join(type, req.body.directory.split(path.sep)[0])}};
     if ('script' in filetypes[type]) {
+      console.log(`exec: ${filetypes[type]['script']}`)
       exec(filetypes[type]['script'], execOpt, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
@@ -49,8 +53,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       });
     }
   });
-  res.json({ 'result': 'success!',
-             'files': req.files });
+  res.send('success!');
 });
 
 module.exports = router;
