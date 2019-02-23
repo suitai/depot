@@ -1,0 +1,11 @@
+Directory:
+  - Tool/7/x86_64
+  - Test/7/x86_64
+  - Stable/7/x86_64
+Filetype:
+  Packages:
+    extension: [ .rpm, .tar, .gz ]
+  Documents:
+    extension: [ .md, .txt, .pdf, .doc, .docx, .ppt, .pptx ]
+  Pictures:
+    extension: [ .png, .jpg, .jpeg, .gif ]
