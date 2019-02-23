@@ -50,8 +50,6 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
     }
   });
   res.json({ 'result': 'success!',
-             'directory': req.body.directory,
-             'tag': req.body.tag,
              'files': req.files });
 });
 
