@@ -1,7 +1,10 @@
 Directory:
-  - Tool/7/x86_64
+  - Test
   - Test/7/x86_64
+  - Stable
   - Stable/7/x86_64
+  - Tool
+  - Tool/7/x86_64
 Filetype:
   Packages:
     extension: [ .rpm, .tar, .gz ]
