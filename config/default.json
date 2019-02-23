@@ -1,8 +1,0 @@
-{
-  "Directory": ["Tool/7/x86_64", "Test/7/x86_64", "Stable/7/x86_64"],
-  "Filetype": {
-    "Packages": [ ".rpm", ".tar", ".gz" ],
-    "Documents": [ ".md", ".txt", ".pdf", ".doc", ".docx", ".ppt", ".pptx" ],
-    "Pictures": [ ".png", ".jpg", ".jpeg", ".gif" ]
-  }
-}

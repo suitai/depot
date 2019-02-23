@@ -13,8 +13,7 @@ var upload = multer({
       var filetype = 'Others';
       var filetypes = config.get('Filetype');
       for (key in filetypes) {
-        console.log(filetypes[key]);
-        if (filetypes[key].includes(extension)) {
+        if (filetypes[key]['extension'].includes(extension)) {
           filetype = key;
         }
       }
