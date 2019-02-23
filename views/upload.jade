@@ -5,9 +5,6 @@ form(method="POST", action="/upload", enctype="multipart/form-data")
       each item in directory
         option= item
   .form-group
-    label(for="InputTag") Tag
-    input.form-control#InputTag(type="text", name="tag")
-  .form-group
     label(for="InputFile") Files
     input.form-control-file#InputFile(type="file", name="file", multiple)
   button.btn.btn-primary(type="submit") Upload
