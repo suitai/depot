@@ -1,43 +1,43 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var multer = require('multer');
-var fs = require('fs-extra');
-var path = require('path');
-var config = require('config');
+const multer = require('multer');
+const fs = require('fs-extra');
+const path = require('path');
+const config = require('config');
 const { exec } = require('child_process');
 
-var filetypes = config.get('Filetype');
-var typeSet = new Set();
-
 const uploadDir = process.env.UPLOAD_DIR
+const filetypes = config.get('Filetype');
+let typeSet = new Set();
 
-var upload = multer({
+const upload = multer({
   storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      var extension = path.extname(file.originalname);
-      var filetype = 'Others';
+    destination: (req, file, cb) => {
+      const extension = path.extname(file.originalname);
+      let filetype = 'Others';
+
       for (type in filetypes) {
         if (filetypes[type]['extension'].includes(extension)) {
           filetype = type;
           typeSet.add(type);
         }
       }
-      var dir = path.join(uploadDir, req.body.directory, filetype);
+      const dir = path.join(uploadDir, req.body.directory, filetype);
       if (!fs.existsSync(dir)) {
         fs.mkdirsSync(dir);
       }
       cb(null, dir);
     },
-    filename: function (req, file, cb) {
+    filename: (req, file, cb) => {
       cb(null, file.originalname);
     }
   })
 })
 
-router.post('/', upload.array('file', 12), function(req, res, next) {
-  typeSet.forEach( function (type) {
-    var execOpt = {cwd: uploadDir, env: {repodir: req.body.directory.split(path.sep)[0]}};
+router.post('/', upload.array('file', 12), (req, res, next) => {
+  typeSet.forEach((type) => {
+    const execOpt = {cwd: uploadDir, env: {repodir: req.body.directory.split(path.sep)[0]}};
     if ('script' in filetypes[type]) {
       exec(filetypes[type]['script'], execOpt, (error, stdout, stderr) => {
         if (error) {
