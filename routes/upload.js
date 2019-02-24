@@ -9,19 +9,20 @@ const { exec } = require('child_process');
 
 const uploadDir = process.env.UPLOAD_DIR
 const filetypes = config.get('Filetype');
-let filetype = 'Others';
 let typeSet = new Set();
 
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       const extension = path.extname(file.originalname);
+      let filetype = 'Others';
       for (type in filetypes) {
         if (filetypes[type]['extension'].includes(extension)) {
           filetype = type;
           typeSet.add(type);
         }
       }
+      console.log(`filetype: ${filetype}`);
       const dir = path.join(uploadDir, filetype, req.body.dir);
       if (!fs.existsSync(dir)) {
         fs.mkdirsSync(dir);
@@ -53,6 +54,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       });
     }
   });
+  typeSet.clear();
   res.send('success!');
 });
 
