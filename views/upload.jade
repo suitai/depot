@@ -8,3 +8,7 @@ form(method="POST", action="/upload", enctype="multipart/form-data")
     label(for="InputFile") Files
     input.form-control-file#InputFile(type="file", name="file", multiple)
   button.btn.btn-primary(type="submit") Upload
+
+p.margin-top Command Line
+pre
+  code curl -F "dir=Test" -F "file=@filename"  #{url}/upload
