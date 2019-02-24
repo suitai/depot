@@ -1,7 +1,7 @@
 form(method="POST", action="/upload", enctype="multipart/form-data")
   .form-group
-    label(for="SelectDirectory") Directory
-    select.form-control#SelectDirectory(name='directory')
+    label(for="SelectDir") Directory
+    select.form-control#SelectDir(name='dir')
       each item in directory
         option= item
   .form-group
