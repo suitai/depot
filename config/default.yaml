@@ -5,11 +5,7 @@ Directory:
   - Stable/7/x86_64
   - Tool
   - Tool/7/x86_64
-Filetype:
-  Packages:
-    extension: [ .rpm, .tar, .gz ]
-    script: createrepo ${repodir}
-  Documents:
-    extension: [ .md, .txt, .pdf, .doc, .docx, .ppt, .pptx ]
-  Pictures:
-    extension: [ .png, .jpg, .jpeg, .gif ]
+Operate:
+  -
+    regex: .+\.rpm
+    rename: Packages/${filename}
