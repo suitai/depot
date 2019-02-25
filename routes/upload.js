@@ -36,7 +36,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
           cwd: uploadDir,
           env: {
             filename: file.originalname,
-            dir: newdir,
+            dir: req.body.dir,
             firstdir: req.body.dir.split(path.sep)[0]
           }
         };
