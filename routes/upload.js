@@ -36,7 +36,8 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
           cwd: uploadDir,
           env: {
             filename: file.originalname,
-            dir: newdir
+            dir: newdir,
+            firstdir: req.body.dir.split(path.sep)[0]
           }
         };
         if ('rename' in operate) {
@@ -56,6 +57,17 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
                 return;
               }
             });
+          });
+        }
+        if ('post' in operate) {
+          console.log(`post ${operate.post}`);
+          exec(operate.post, execOpt, (err, stdout, stderr) => {
+            if (err) {
+              console.error(`exec error: ${err}`);
+              return;
+            }
+            console.log(`stdout: ${stdout}`);
+            console.log(`stderr: ${stderr}`);
           });
         }
       }
