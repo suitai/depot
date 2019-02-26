@@ -31,45 +31,46 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       }
     });
     operates.forEach((operate) => {
-      if (file.originalname.match(operate.regex)) {
-        const execOpt = {
-          cwd: uploadDir,
-          env: {
-            filename: file.originalname,
-            dir: req.body.dir,
-            firstdir: req.body.dir.split(path.sep)[0]
+      if (!file.originalname.match(operate.regex)) {
+        return;
+      }
+      const execOpt = {
+        cwd: uploadDir,
+        env: {
+          filename: file.originalname,
+          dir: req.body.dir,
+          firstdir: req.body.dir.split(path.sep)[0]
+        }
+      };
+      if ('rename' in operate) {
+        exec(`echo ${operate.rename}`, execOpt, (err, stdout, stderr) => {
+          if (err) {
+            console.error(`exec error: ${err}`);
+            return;
           }
-        };
-        if ('rename' in operate) {
-          exec(`echo ${operate.rename}`, execOpt, (err, stdout, stderr) => {
+          console.log(`rename: ${stdout}`)
+          renameDir = path.dirname(stdout);
+          if (!fs.existsSync(renameDir)) {
+            fs.mkdirsSync(renameDir);
+          }
+          fs.rename(newpath, path.join(newdir, stdout), (err) => {
             if (err) {
-              console.error(`exec error: ${err}`);
+              console.error(`rename error: ${err}`);
               return;
             }
-            console.log(`rename: ${stdout}`)
-            renameDir = path.dirname(stdout);
-            if (!fs.existsSync(renameDir)) {
-              fs.mkdirsSync(renameDir);
-            }
-            fs.rename(newpath, path.join(newdir, stdout), (err) => {
-              if (err) {
-                console.error(`rename error: ${err}`);
-                return;
-              }
-            });
           });
-        }
-        if ('post' in operate) {
-          console.log(`post ${operate.post}`);
-          exec(operate.post, execOpt, (err, stdout, stderr) => {
-            if (err) {
-              console.error(`exec error: ${err}`);
-              return;
-            }
-            console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-          });
-        }
+        });
+      }
+      if ('post' in operate) {
+        console.log(`post ${operate.post}`);
+        exec(operate.post, execOpt, (err, stdout, stderr) => {
+          if (err) {
+            console.error(`exec error: ${err}`);
+            return;
+          }
+          console.log(`stdout: ${stdout}`);
+          console.log(`stderr: ${stderr}`);
+        });
       }
     });
   });
