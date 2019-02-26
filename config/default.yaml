@@ -1,12 +1,12 @@
 Directory:
-  - Test/7/x86_64
-  - Stable/7/x86_64
-  - Tool/7/x86_64
+  - Test/7
+  - Stable/7
+  - Tool/7
   - Documents
   - Pictures
 
 Operate:
   -
-    regex: .+\.rpm
-    rename: Packages/${filename}
+    match: .+\.(.+)\.rpm
+    rename: ${match_1}/Packages/${filename}
     post: createrepo ${dir_0}
