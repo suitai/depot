@@ -9,4 +9,4 @@ Operate:
   -
     regex: .+\.rpm
     rename: Packages/${filename}
-    post: createrepo ${firstdir}
+    post: createrepo ${dir_0}

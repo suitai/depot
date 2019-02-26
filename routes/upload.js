@@ -39,7 +39,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         env: {
           filename: file.originalname,
           dir: req.body.dir,
-          firstdir: req.body.dir.split(path.sep)[0]
+          dir_0: req.body.dir.split(path.sep)[0]
         }
       };
       if ('rename' in operate) {
