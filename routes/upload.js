@@ -27,13 +27,15 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
     fs.rename(file.path, newpath, (err) => {
       if (err) {
         console.error(`rename error: ${err}`);
-        return;
       }
     });
-    operates.forEach((operate) => {
-      const match = file.originalname.match(operate.match)
-      if (!match) {
-        return;
+    for (operate of operates) {
+      let match = new Array();
+      if ('match' in operate) {
+        match = file.originalname.match(operate.match);
+        if (!match) {
+          continue;
+        }
       }
       const execOpt = {
         cwd: uploadDir,
@@ -54,7 +56,6 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         fs.rename(newpath, path.join(newdir, renameStdout), (err) => {
           if (err) {
             console.error(`rename error: ${err}`);
-            return;
           }
         });
       }
@@ -63,7 +64,8 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         const postStdout = child_process.execSync(operate.post, execOpt).toString();
         console.log(`stdout: ${postStdout}`);
       }
-    });
+      break;
+    }
   });
   res.send('success!');
 });
