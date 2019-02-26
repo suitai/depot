@@ -5,7 +5,7 @@ const multer = require('multer');
 const fs = require('fs-extra');
 const path = require('path');
 const config = require('config');
-const { exec } = require('child_process');
+const child_process = require('child_process');
 
 const uploadDir = process.env.UPLOAD_DIR
 const tmpDir = path.join(uploadDir, 'tmp');
@@ -43,34 +43,23 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         }
       };
       if ('rename' in operate) {
-        exec(`echo ${operate.rename}`, execOpt, (err, stdout, stderr) => {
+        const renameStdout = child_process.execSync(`echo ${operate.rename}`, execOpt).toString();
+        console.log(`rename: ${renameStdout}`);
+        renameDir = path.dirname(renameStdout);
+        if (!fs.existsSync(renameStdout)) {
+          fs.mkdirsSync(renameDir);
+        }
+        fs.rename(newpath, path.join(newdir, renameStdout), (err) => {
           if (err) {
-            console.error(`exec error: ${err}`);
+            console.error(`rename error: ${err}`);
             return;
           }
-          console.log(`rename: ${stdout}`)
-          renameDir = path.dirname(stdout);
-          if (!fs.existsSync(renameDir)) {
-            fs.mkdirsSync(renameDir);
-          }
-          fs.rename(newpath, path.join(newdir, stdout), (err) => {
-            if (err) {
-              console.error(`rename error: ${err}`);
-              return;
-            }
-          });
         });
       }
       if ('post' in operate) {
-        console.log(`post ${operate.post}`);
-        exec(operate.post, execOpt, (err, stdout, stderr) => {
-          if (err) {
-            console.error(`exec error: ${err}`);
-            return;
-          }
-          console.log(`stdout: ${stdout}`);
-          console.log(`stderr: ${stderr}`);
-        });
+        console.log(`post: ${operate.post}`);
+        const postStdout = child_process.execSync(operate.post, execOpt).toString();
+        console.log(`stdout: ${postStdout}`);
       }
     });
   });
