@@ -31,7 +31,8 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       }
     });
     operates.forEach((operate) => {
-      if (!file.originalname.match(operate.regex)) {
+      const match = file.originalname.match(operate.match)
+      if (!match) {
         return;
       }
       const execOpt = {
@@ -39,14 +40,15 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         env: {
           filename: file.originalname,
           dir: req.body.dir,
-          dir_0: req.body.dir.split(path.sep)[0]
+          dir_0: req.body.dir.split(path.sep)[0],
+          match_1: match[1]
         }
       };
       if ('rename' in operate) {
         const renameStdout = child_process.execSync(`echo ${operate.rename}`, execOpt).toString();
         console.log(`rename: ${renameStdout}`);
-        renameDir = path.dirname(renameStdout);
-        if (!fs.existsSync(renameStdout)) {
+        renameDir = path.join(newdir, path.dirname(renameStdout));
+        if (!fs.existsSync(renameDir)) {
           fs.mkdirsSync(renameDir);
         }
         fs.rename(newpath, path.join(newdir, renameStdout), (err) => {
