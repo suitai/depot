@@ -5,7 +5,7 @@ const multer = require('multer');
 const fs = require('fs-extra');
 const path = require('path');
 const config = require('config');
-const child_process = require('child_process');
+const childProcess = require('child_process');
 
 const uploadDir = process.env.UPLOAD_DIR
 const tmpDir = path.join(uploadDir, 'tmp');
@@ -47,7 +47,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         }
       };
       if ('rename' in operate) {
-        const renameStdout = child_process.execSync(`echo ${operate.rename}`, execOpt).toString();
+        const renameStdout = childProcess.execSync(`echo ${operate.rename}`, execOpt).toString();
         console.log(`rename: ${renameStdout}`);
         renameDir = path.join(newdir, path.dirname(renameStdout));
         if (!fs.existsSync(renameDir)) {
@@ -61,7 +61,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       }
       if ('post' in operate) {
         console.log(`post: ${operate.post}`);
-        const postStdout = child_process.execSync(operate.post, execOpt).toString();
+        const postStdout = childProcess.execSync(operate.post, execOpt).toString();
         console.log(`stdout: ${postStdout}`);
       }
       if ('break' in operate) {
