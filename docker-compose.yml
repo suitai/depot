@@ -4,6 +4,8 @@ services:
     build: .
     environment:
       NODE_ENV: development
+      BASIC_USER: depot
+      BASIC_PASSWORD: depot
     ports:
       - '3000:3000'
     volumes:

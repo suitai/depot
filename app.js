@@ -6,11 +6,14 @@ const logger = require('morgan');
 
 const bodyParser = require('body-parser');
 const serveIndex = require('serve-index')
+const basicAuth = require('basic-auth-connect');
 
 const indexRouter = require('./routes/index');
 const uploadRouter = require('./routes/upload');
 
 const uploadDir = process.env.UPLOAD_DIR;
+const basicUser = process.env.BASIC_USER;
+const basicPassword = process.env.BASIC_PASSWORD;
 
 const app = express();
 
@@ -25,6 +28,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
+if (basicUser && basicPassword) {
+  app.use(basicAuth(basicUser, basicPassword));
+}
 
 app.use('/', indexRouter);
 app.use('/upload', uploadRouter);
