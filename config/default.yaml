@@ -16,3 +16,7 @@ Operate:
     rename: ${match_1}/Packages/${filename}
     post: createrepo ${dir_0}
     break: true
+
+List:
+  exclude:
+    - repodata
