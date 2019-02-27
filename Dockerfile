@@ -7,6 +7,7 @@ ARG https_proxy
 ENV APP_ROOT=/opt/app-root/src/depot \
     PATH=/opt/rh/rh-nodejs8/root/usr/bin:$PATH \
     UPLOAD_DIR=public/ftp \
+    DOWNLOAD_DIR=/ftp \
     http_proxy=$http_proxy \
     https_proxy=$https_proxy
 
