@@ -8,7 +8,7 @@ const config = require('config');
 const childProcess = require('child_process');
 
 const uploadDir = process.env.UPLOAD_DIR
-const tmpDir = path.join(uploadDir, 'tmp');
+const tmpDir = path.join(uploadDir, '.tmp');
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirsSync(tmpDir);
 }
