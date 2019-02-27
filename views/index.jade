@@ -6,6 +6,8 @@ block content
       a.nav-link.active(data-toggle="tab", href="#home", role="tab", aria-controls="home", aria-selected="true") Home
     li.nav-item.active
       a.nav-link(data-toggle="tab", href="#upload" role="tab", aria-controls="upload", aria-selected="false") Upload
+    li.nav-item.active
+      a.nav-link(data-toggle="tab", href="#list" role="tab", aria-controls="list", aria-selected="false") List
 
   div.tab-content
     div.tab-pane.fade.show.active#home(role="tabpanel", aria-labelledby="home-tab")
@@ -13,3 +15,6 @@ block content
 
     div.tab-pane.fade#upload(role="tabpanel", aria-labelledby="upload-tab")
       include upload
+
+    div.tab-pane.fade#list(role="tabpanel", aria-labelledby="upload-tab")
+      include list
