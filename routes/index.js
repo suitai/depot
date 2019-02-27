@@ -46,6 +46,7 @@ router.get('/', (req, res, next) => {
     if (err) throw err;
     res.render('index', {
       title: 'Depot',
+      download: process.env.DOWNLOAD_DIR,
       directory: config.get('Directory'),
       url: req.protocol + '://' + req.headers.host + req.url,
       list: list
