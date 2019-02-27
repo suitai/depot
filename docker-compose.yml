@@ -1,7 +1,11 @@
 version: '2'
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${https_proxy}
     environment:
       NODE_ENV: development
       BASIC_USER: depot

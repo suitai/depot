@@ -1,9 +1,14 @@
 FROM centos/nodejs-8-centos7:latest
 USER root
 
+ARG http_proxy
+ARG https_proxy
+
 ENV APP_ROOT=/opt/app-root/src/depot \
     PATH=/opt/rh/rh-nodejs8/root/usr/bin:$PATH \
-    UPLOAD_DIR=public/ftp
+    UPLOAD_DIR=public/ftp \
+    http_proxy=$http_proxy \
+    https_proxy=$https_proxy
 
 WORKDIR $APP_ROOT
 COPY *.json $APP_ROOT/
