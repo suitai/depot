@@ -47,7 +47,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         }
       };
       if ('rename' in operate) {
-        const renameStdout = childProcess.execSync(`echo ${operate.rename}`, execOpt).toString();
+        const renameStdout = childProcess.execSync(`echo ${operate.rename}`, execOpt).toString().trim();
         console.log(`rename: ${renameStdout}`);
         renameDir = path.join(newdir, path.dirname(renameStdout));
         if (!fs.existsSync(renameDir)) {
@@ -61,7 +61,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       }
       if ('post' in operate) {
         console.log(`post: ${operate.post}`);
-        const postStdout = childProcess.execSync(operate.post, execOpt).toString();
+        const postStdout = childProcess.execSync(operate.post, execOpt).toString().trim();
         console.log(`stdout: ${postStdout}`);
       }
       if ('break' in operate) {
