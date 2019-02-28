@@ -80,7 +80,16 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       });
     }
   });
-  res.send('success!');
+  res.format({
+    text: function(){
+      res.send('Upload Success!\n');
+    },
+    html: function(){
+      res.render('success', {
+        message: 'Upload Success!'
+      });
+    }
+  });
 });
 
 module.exports = router;
