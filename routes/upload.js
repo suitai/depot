@@ -14,6 +14,16 @@ if (!fs.existsSync(tmpDir)) {
 }
 const upload = multer({ dest: tmpDir });
 
+const filemove = (oldpath, newpath, done) => {
+  const newdir = path.dirname(newpath);
+  if (!fs.existsSync(newdir)) {
+    fs.mkdirsSync(newdir);
+  }
+  fs.rename(oldpath, newpath, (err) => {
+    if (err) return done(err);
+  });
+}
+
 router.post('/', upload.array('file', 12), (req, res, next) => {
   const operates = config.get('Operate');
   req.files.forEach((file) => {
@@ -36,27 +46,17 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       };
       const newDir = path.join(uploadDir, req.body.dir);
       if ('rename' in operate) {
-        const renamePath = childProcess.execSync(`echo ${operate.rename}`, execOpt).toString().trim();
-        const renameDir = path.join(newDir, path.dirname(renamePath));
-        if (!fs.existsSync(renameDir)) {
-          fs.mkdirsSync(renameDir);
-        }
+        let renamePath = childProcess.execSync(`echo ${operate.rename}`, execOpt).toString().trim();
+        renamePath = path.join(newDir, renamePath);
         console.log(`rename: ${renamePath}`);
-        fs.rename(file.path, path.join(newDir, renamePath), (err) => {
-          if (err) {
+        filemove(file.path, renamePath, (err) => {
             console.error(`rename error: ${err}`);
-          }
         });
       } else {
         const newPath = path.join(newDir, file.originalname);
-        if (!fs.existsSync(newDir)) {
-          fs.mkdirsSync(newDir);
-        }
         console.log(`file: ${newPath}`);
-        fs.rename(file.path, newPath, (err) => {
-          if (err) {
+        filemove(file.path, newPath, (err) => {
             console.error(`rename error: ${err}`);
-          }
         });
       }
       if ('post' in operate) {
