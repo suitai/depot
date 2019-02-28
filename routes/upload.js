@@ -27,6 +27,9 @@ const filemove = (oldpath, newpath, done) => {
 router.post('/', upload.array('file', 12), (req, res, next) => {
   const operates = config.get('Operate');
   req.files.forEach((file) => {
+    let isMatch = false;
+    const newDir = path.join(uploadDir, req.body.dir);
+    const newPath = path.join(newDir, file.originalname);
     for (operate of operates) {
       let match = new Array();
       if ('match' in operate) {
@@ -34,6 +37,7 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         if (!match) {
           continue;
         }
+        isMatch = true;
       }
       const execOpt = {
         cwd: uploadDir,
@@ -44,7 +48,6 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
           match_1: match[1]
         }
       };
-      const newDir = path.join(uploadDir, req.body.dir);
       if ('rename' in operate) {
         let renamePath = childProcess.execSync(`echo ${operate.rename}`, execOpt).toString().trim();
         renamePath = path.join(newDir, renamePath);
@@ -53,7 +56,6 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
             console.error(`rename error: ${err}`);
         });
       } else {
-        const newPath = path.join(newDir, file.originalname);
         console.log(`file: ${newPath}`);
         filemove(file.path, newPath, (err) => {
             console.error(`rename error: ${err}`);
@@ -70,6 +72,12 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
           break;
         }
       }
+    }
+    if (!isMatch) {
+      console.log(`file: ${newPath}`);
+      filemove(file.path, newPath, (err) => {
+          console.error(`rename error: ${err}`);
+      });
     }
   });
   res.send('success!');
