@@ -10,6 +10,13 @@ router.get('/', (req, res, next) => {
   const reqpath = req.query.path;
   const filepath = path.join(uploadDir, req.query.path);
   const dirname = path.dirname(filepath);
+  if (path.resolve(filepath).indexOf(path.resolve(uploadDir)) != 0 ) {
+    res.format({
+      text: function(){
+        res.send(`${reqpath} is Invalid!\n`);
+      }
+    });
+  }
   if (!fs.existsSync(filepath)) {
     res.format({
       text: function(){
