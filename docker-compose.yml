@@ -1,6 +1,7 @@
 version: '2'
 services:
   app:
+    image: ${registry}/depot:${depot_tag}
     build:
       context: .
       args:
