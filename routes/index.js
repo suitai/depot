@@ -5,6 +5,8 @@ const config = require('config');
 const fs = require('fs');
 const path = require('path');
 
+const Title = process.env.TITLE
+
 const walk = (dir, option, done) => {
   let results = [];
   fs.readdir(dir, function(err, list) {
@@ -45,7 +47,7 @@ router.get('/', (req, res, next) => {
   walk(uploadDir, option, (err, list) => {
     if (err) throw err;
     res.render('index', {
-      title: 'Depot',
+      title: Title,
       download: process.env.DOWNLOAD_DIR,
       directory: config.get('Directory'),
       url: req.protocol + '://' + req.headers.host + req.url,
