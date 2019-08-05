@@ -15,6 +15,10 @@ Operate:
       match: .+\.(.+)\.rpm
       rename: ${match_1}/Packages/${filename}
       post: createrepo ${dirname}/..
+  Remove:
+    -
+      match: .+\.(.+)\.rpm
+      post: createrepo ${dirname}/..
 
 List:
   exclude:
