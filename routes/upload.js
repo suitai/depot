@@ -70,9 +70,10 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         const postStdout = childProcess.execSync(operate.post, execOpt).toString().trim();
         console.log(`stdout: ${postStdout}`);
       }
-      if ('break' in operate) {
+      if (! 'break'in operate) {
+        break;
+      } else {
         if (operate.break) {
-          console.log('break');
           break;
         }
       }
