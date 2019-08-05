@@ -39,12 +39,14 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         }
         isMatch = true;
       }
-      const execOpt = {
+      let execOpt = {
         cwd: uploadDir,
         env: {
           filename: file.originalname,
           dir: req.body.dir,
-          dir_0: req.body.dir.split(path.sep)[0],
+          filepath: path.relative(uploadDir, file.path),
+          dirname: path.relative(uploadDir, path.dirname(file.path)),
+          match_0: match[0],
           match_1: match[1]
         }
       };
@@ -55,6 +57,8 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         filemove(file.path, renamePath, (err) => {
             console.error(`rename error: ${err}`);
         });
+        execOpt['env']['filepath'] = path.relative(uploadDir, renamePath);
+        execOpt['env']['dirname'] = path.relative(uploadDir, path.dirname(renamePath));
       } else {
         console.log(`file: ${newPath}`);
         filemove(file.path, newPath, (err) => {

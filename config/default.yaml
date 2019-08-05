@@ -10,12 +10,12 @@ Operate:
     -
       match: .+\.noarch\.rpm
       rename: x86_64/Packages/${filename}
-      post: createrepo ${dir}/x86_64
+      post: createrepo ${dirname}/..
       break: true
     -
       match: .+\.(.+)\.rpm
       rename: ${match_1}/Packages/${filename}
-      post: createrepo ${dir}/${match_1}
+      post: createrepo ${dirname}/..
       break: true
 
 List:
