@@ -25,7 +25,7 @@ const filemove = (oldpath, newpath, done) => {
 }
 
 router.post('/', upload.array('file', 12), (req, res, next) => {
-  const operates = config.get('Operate');
+  const operates = config.get('Operate.Upload');
   req.files.forEach((file) => {
     let isMatch = false;
     const newDir = path.join(uploadDir, req.body.dir);
