@@ -3,10 +3,6 @@ window.onload = function () {
     el: '#list',
     data: {
       list: [],
-      appName: 'The name of some other app'
-    },
-    created () {
-      console.log(this.appName)
     },
     mounted () {
       axios
