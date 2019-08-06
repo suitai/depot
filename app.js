@@ -11,6 +11,7 @@ const basicAuth = require('basic-auth-connect');
 const indexRouter = require('./routes/index');
 const uploadRouter = require('./routes/upload');
 const removeRouter = require('./routes/remove');
+const listRouter = require('./routes/list');
 
 const uploadDir = process.env.UPLOAD_DIR;
 const downloadDir = process.env.DOWNLOAD_DIR;
@@ -37,6 +38,7 @@ if (basicUser && basicPassword) {
 app.use('/', indexRouter);
 app.use('/upload', uploadRouter);
 app.use('/remove', removeRouter);
+app.use('/list', listRouter);
 app.use(downloadDir, express.static(uploadDir), serveIndex(uploadDir, {'icons': true}))
 
 // catch 404 and forward to error handler
