@@ -23,10 +23,19 @@ const walk = (dir, option, done) => {
               if (!--pending) done(null, results);
             });
           } else {
-            if ('baseDir' in option) {
-              file = file.substr(option.baseDir.length + 1);
+            let result = {
+              path: file,
+              url: file,
+              size: stat.size,
+              mtime: stat.mtime
             }
-            results.push(file);
+            if ('baseDir' in option) {
+              result.path = file.substr(option.baseDir.length + 1);
+            }
+            if ('baseUrl' in option) {
+              result.url = option.baseUrl + result.path;
+            }
+            results.push(result);
             if (!--pending) done(null, results);
           }
         });
@@ -40,6 +49,7 @@ router.get('/', (req, res, next) => {
   const uploadDir = process.env.UPLOAD_DIR;
   const option = {
     baseDir: uploadDir,
+    baseUrl: req.protocol + '://' + req.headers.host + process.env.DOWNLOAD_DIR + '/',
     exclude: config.get('List').exclude
   }
   walk(uploadDir, option, (err, list) => {

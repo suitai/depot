@@ -7,4 +7,5 @@ div#list
     tbody
       tr(v-for="(item, index in list")
         th(scope="col") {{ index }}
-        td {{ item }}
+        td
+           a(v-bind:href="item.url" ) {{ item.path }}
