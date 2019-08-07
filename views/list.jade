@@ -4,8 +4,12 @@ div#list
       tr
         th(scope="col") #
         th(scope="col") Path
+        th(scope="col") Bytes
+        th(scope="col") Time
     tbody
       tr(v-for="(item, index in list")
         th(scope="col") {{ index }}
         td
            a(v-bind:href="item.url" ) {{ item.path }}
+        td {{ item.size }}
+        td {{ item.mtime }}
