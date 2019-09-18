@@ -6,16 +6,19 @@ Directory:
   - Pictures
 
 Operate:
-  -
-    match: .+\.noarch\.rpm
-    rename: x86_64/Packages/${filename}
-    post: createrepo ${dir}/x86_64
-    break: true
-  -
-    match: .+\.(.+)\.rpm
-    rename: ${match_1}/Packages/${filename}
-    post: createrepo ${dir}/${match_1}
-    break: true
+  Upload:
+    -
+      match: .+\.noarch\.rpm
+      rename: x86_64/Packages/${filename}
+      post: createrepo ${dirname}/..
+    -
+      match: .+\.(.+)\.rpm
+      rename: ${match_1}/Packages/${filename}
+      post: createrepo ${dirname}/..
+  Remove:
+    -
+      match: .+\.(.+)\.rpm
+      post: createrepo ${dirname}/..
 
 List:
   exclude:

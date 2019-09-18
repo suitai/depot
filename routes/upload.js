@@ -25,7 +25,7 @@ const filemove = (oldpath, newpath, done) => {
 }
 
 router.post('/', upload.array('file', 12), (req, res, next) => {
-  const operates = config.get('Operate');
+  const operates = config.get('Operate.Upload');
   req.files.forEach((file) => {
     let isMatch = false;
     const newDir = path.join(uploadDir, req.body.dir);
@@ -39,12 +39,14 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         }
         isMatch = true;
       }
-      const execOpt = {
+      let execOpt = {
         cwd: uploadDir,
         env: {
           filename: file.originalname,
           dir: req.body.dir,
-          dir_0: req.body.dir.split(path.sep)[0],
+          filepath: path.relative(uploadDir, file.path),
+          dirname: path.relative(uploadDir, path.dirname(file.path)),
+          match_0: match[0],
           match_1: match[1]
         }
       };
@@ -55,6 +57,8 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         filemove(file.path, renamePath, (err) => {
             console.error(`rename error: ${err}`);
         });
+        execOpt['env']['filepath'] = path.relative(uploadDir, renamePath);
+        execOpt['env']['dirname'] = path.relative(uploadDir, path.dirname(renamePath));
       } else {
         console.log(`file: ${newPath}`);
         filemove(file.path, newPath, (err) => {
@@ -63,12 +67,14 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
       }
       if ('post' in operate) {
         console.log(`post: ${operate.post}`);
-        const postStdout = childProcess.execSync(operate.post, execOpt).toString().trim();
+        let postStdout = childProcess.execSync(operate.post, execOpt).toString().trim();
+        postStdout = postStdout.replace(/\n/g, '\nstdout: ')
         console.log(`stdout: ${postStdout}`);
       }
-      if ('break' in operate) {
+      if (! 'break'in operate) {
+        break;
+      } else {
         if (operate.break) {
-          console.log('break');
           break;
         }
       }

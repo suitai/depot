@@ -1,12 +1,10 @@
-table.table
-  thead
-    tr
-      th(scope="col") #
-      th(scope="col") Path
-  tbody
-    - for (var i = 0; i < list.length; i++) {
-    tr
-      th(scope="col") #{i + 1}
-      td
-        a(href=download + "/" + list[i]) #{list[i]}
-    - }
+div#list
+  table.table
+    thead
+      tr
+        th(scope="col") #
+        th(scope="col") Path
+    tbody
+      tr(v-for="(item, index in list")
+        th(scope="col") {{ index }}
+        td {{ item }}
