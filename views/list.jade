@@ -15,4 +15,5 @@ div#list
         td(align="right") {{ item.size }}
         td {{ item.mtime }}
         td
-           button.btn(v-on:click="remove(item.path)") &#x1F5D1;
+           button.btn(v-on:click="remove(item.path)")
+             i.fas.fa-trash-alt
