@@ -6,6 +6,7 @@ div#list
         th(scope="col") Path
         th(scope="col") Bytes
         th(scope="col") Time
+        th(scope="col") Remove
     tbody
       tr(v-for="(item, index in list")
         th(scope="col") {{ index }}
@@ -13,3 +14,5 @@ div#list
            a(v-bind:href="item.url" ) {{ item.path }}
         td(align="right") {{ item.size }}
         td {{ item.mtime }}
+        td
+           button.btn(v-on:click="remove(item.path)") &#x1F5D1;

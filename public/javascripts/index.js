@@ -4,6 +4,16 @@ window.onload = function () {
     data: {
       list: [],
     },
+    methods: {
+      remove: function (path) {
+        axios
+          .get('./remove', {
+             params: {
+               path: path
+             }
+          })
+      }
+    },
     mounted () {
       axios
         .get('./list')
