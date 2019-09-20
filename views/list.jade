@@ -11,5 +11,5 @@ div#list
         th(scope="col") {{ index }}
         td
            a(v-bind:href="item.url" ) {{ item.path }}
-        td {{ item.size }}
+        td(align="right") {{ item.size }}
         td {{ item.mtime }}
