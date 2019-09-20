@@ -1,5 +1,5 @@
 window.onload = function () {
-  new Vue({
+  var app = new Vue({
     el: '#list',
     data: {
       list: [],
@@ -10,4 +10,11 @@ window.onload = function () {
         .then(response => (this.list = response.data))
     }
   })
+  setInterval(function () {
+    if (document.visibilityState === 'visible') {
+      axios
+        .get('./list')
+        .then(response => (app.list = response.data))
+    }
+  }, 3000);
 }
