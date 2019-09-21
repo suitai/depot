@@ -33,7 +33,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
       }
       data.operate = operate;
       data.match = match;
-      queue.file.push(data);
+      queue.file.push(JSON.parse(JSON.stringify(data)));
       if ('break' in operate) {
         if (operate.break) {
           break;
