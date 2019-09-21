@@ -18,7 +18,6 @@ const upload = multer({ dest: tmpDir });
 router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
   req.files.forEach((file) => {
-    let isMatch = false;
     for (let operate of operates) {
       let match = [];
       if ('match' in operate) {
@@ -26,7 +25,6 @@ router.post('/', upload.array('file', 12), (req, res) => {
         if (!match) {
           continue;
         }
-        isMatch = true;
       }
       queue.plugin.push({
         dest: req.body.dest,
