@@ -9,7 +9,7 @@ const config = require('config');
 const queue = require('../lib/queue.js');
 
 const uploadDir = process.env.UPLOAD_DIR;
-const tmpDir = path.join(uploadDir, '.tmp');
+const tmpDir = path.join(uploadDir, '.upload');
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirsSync(tmpDir);
 }
