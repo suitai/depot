@@ -27,9 +27,7 @@ const filemove = (oldpath, newpath, done) => {
 
 const pluginQueue = async.queue((data, callback) => {
   const newDir = path.join(uploadDir, data.dir);
-  const newPath = path.join(newDir, data.filename);
-
-  let execOpt = {
+  const execOpt = {
     cwd: uploadDir,
     env: {
       dir: data.dir,
@@ -50,12 +48,6 @@ const pluginQueue = async.queue((data, callback) => {
     });
     execOpt.env.filepath = path.relative(uploadDir, renamePath);
     execOpt.env.dirname = path.relative(uploadDir, path.dirname(renamePath));
-  } else {
-    console.log(`file: ${newPath}`);
-    filemove(data.filepath, newPath, (err) => {
-      console.error(`rename: ${err}`);
-      callback(err);
-    });
   }
   if ('post' in data.operate) {
     console.log(`post: ${data.operate.post}`);
@@ -93,12 +85,6 @@ router.post('/', upload.array('file', 12), (req, res) => {
           break;
         }
       }
-    }
-    if (!isMatch) {
-      console.log(`file: ${newPath}`);
-      filemove(file.path, newPath, (err) => {
-          console.error(`rename: ${err}`);
-      });
     }
   });
   res.format({
