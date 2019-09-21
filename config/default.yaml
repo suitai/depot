@@ -20,5 +20,5 @@ Operate:
       exec: createrepo ${dirname}/..
 
 List:
-  exclude:
+  ignore:
     - repodata

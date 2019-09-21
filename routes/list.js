@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   const option = {
     baseDir: uploadDir,
     baseUrl: req.protocol + '://' + req.headers.host + process.env.DOWNLOAD_DIR + '/',
-    exclude: config.get('List').exclude
+    ignore: config.get('List').ignore
   };
   search.files(uploadDir, option, (err, list) => {
     if (err) throw err;
