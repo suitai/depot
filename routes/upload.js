@@ -77,9 +77,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
         operate: operate,
         match: match
       });
-      if (!('break' in operate)) {
-        break;
-      } else {
+      if ('break' in operate) {
         if (operate.break) {
           break;
         }

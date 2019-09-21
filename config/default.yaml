@@ -8,11 +8,10 @@ Directory:
 Operate:
   Upload:
     -
-      match: .+\.rpm
       rename: ${dest}/${filename}
-      post: createrepo ${dirname}/..
     -
-      rename: ${dest}/${filename}
+      match: .+\.rpm
+      post: createrepo ${dirname}/..
   Remove:
     -
       match: .+\.rpm
