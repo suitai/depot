@@ -18,6 +18,11 @@ const upload = multer({ dest: tmpDir });
 router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
   req.files.forEach((file) => {
+    let data = {
+      dest: req.body.dest,
+      filename: file.originalname,
+      filepath: file.path
+    };
     for (let operate of operates) {
       let match = [];
       if ('match' in operate) {
@@ -26,13 +31,9 @@ router.post('/', upload.array('file', 12), (req, res) => {
           continue;
         }
       }
-      queue.plugin.push({
-        dest: req.body.dest,
-        filename: file.originalname,
-        filepath: file.path,
-        operate: operate,
-        match: match
-      });
+      data.operate = operate;
+      data.match = match;
+      queue.file.push(data);
       if ('break' in operate) {
         if (operate.break) {
           break;
