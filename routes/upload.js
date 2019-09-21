@@ -30,7 +30,7 @@ const pluginQueue = async.queue((data, callback) => {
   const execOpt = {
     cwd: uploadDir,
     env: {
-      dir: data.dir,
+      dest: data.dest,
       filename: data.filename,
       filepath: path.relative(uploadDir, data.filepath),
       dirname: path.relative(uploadDir, path.dirname(data.filepath)),
@@ -72,7 +72,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
         isMatch = true;
       }
       pluginQueue.push({
-        dir: req.body.dir,
+        dest: req.body.dest,
         filename: file.originalname,
         filepath: file.path,
         operate: operate,

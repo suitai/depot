@@ -1,10 +1,7 @@
 form(method="POST", action="/upload", enctype="multipart/form-data")
   .form-group
-    label(for="InputDir") Directory
-    input.form-control#InputDir(type="text", name="dir", list="dirs")
-    datalist#dirs
-      each item in directory
-        option= item
+    label(for="InputDest") Destination
+    input.form-control#InputDest(type="text", name="dest")
   .form-group
     label(for="InputFile") Files
     input.form-control-file#InputFile(type="file", name="file", multiple)
@@ -12,4 +9,4 @@ form(method="POST", action="/upload", enctype="multipart/form-data")
 
 p.margin-top Command Line
 pre
-  code curl --basic -u <i>username</i>:<i>password</i> -F "dir=Test" -F "file=@filename" #{url}upload
+  code curl --basic -u <i>username</i>:<i>password</i> -F "dest=Test" -F "file=@filename" #{url}upload
