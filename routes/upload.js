@@ -26,7 +26,6 @@ const filemove = (oldpath, newpath, done) => {
 };
 
 const pluginQueue = async.queue((data, callback) => {
-  const newDir = path.join(uploadDir, data.dir);
   const execOpt = {
     cwd: uploadDir,
     env: {
@@ -40,7 +39,7 @@ const pluginQueue = async.queue((data, callback) => {
   };
   if ('rename' in data.operate) {
     let renamePath = childProcess.execSync(`echo ${data.operate.rename}`, execOpt).toString().trim();
-    renamePath = path.join(newDir, renamePath);
+    renamePath = path.join(uploadDir, renamePath);
     console.log(`rename: ${renamePath}`);
     filemove(data.filepath, renamePath, (err) => {
       console.error(`rename: ${err}`);

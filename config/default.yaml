@@ -9,10 +9,10 @@ Operate:
   Upload:
     -
       match: .+\.rpm
-      rename: Packages/${filename}
+      rename: ${dest}/${filename}
       post: createrepo ${dirname}/..
     -
-      rename: ${filename}
+      rename: ${dest}/${filename}
   Remove:
     -
       match: .+\.rpm
