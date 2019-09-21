@@ -6,13 +6,12 @@ const path = require('path');
 const config = require('config');
 const childProcess = require('child_process');
 
-const uploadDir = process.env.UPLOAD_DIR
+const uploadDir = process.env.UPLOAD_DIR;
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   const operates = config.get('Operate.Remove');
   const reqpath = req.query.path;
   const filepath = path.join(uploadDir, req.query.path);
-  const dirname = path.dirname(filepath);
 
   if (path.resolve(filepath).indexOf(path.resolve(uploadDir)) != 0 ) {
     res.send({error: `${reqpath} is Invalid.`});
@@ -29,8 +28,8 @@ router.get('/', (req, res, next) => {
     }
   });
 
-  for (operate of operates) {
-    let match = new Array();
+  for (let operate of operates) {
+    let match = [];
     if ('match' in operate) {
       match = reqpath.match(operate.match);
       if (!match) {
@@ -50,10 +49,10 @@ router.get('/', (req, res, next) => {
     if ('post' in operate) {
       console.log(`post: ${operate.post}`);
       let postStdout = childProcess.execSync(operate.post, execOpt).toString().trim();
-      postStdout = postStdout.replace(/\n/g, '\nstdout: ')
+      postStdout = postStdout.replace(/\n/g, '\nstdout: ');
       console.log(`stdout: ${postStdout}`);
     }
-    if (! 'break' in operate) {
+    if (!('break' in operate)) {
       break;
     } else {
       if (operate.break) {
@@ -62,10 +61,10 @@ router.get('/', (req, res, next) => {
     }
   }
   res.format({
-    text: function(){
+    text: () => {
       res.send(`${reqpath} Remove!\n`);
     },
-    html: function(){
+    html: () => {
       res.render('success', {
         message: `${reqpath} Remove!`
       });

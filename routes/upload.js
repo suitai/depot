@@ -7,7 +7,7 @@ const path = require('path');
 const config = require('config');
 const childProcess = require('child_process');
 
-const uploadDir = process.env.UPLOAD_DIR
+const uploadDir = process.env.UPLOAD_DIR;
 const tmpDir = path.join(uploadDir, '.tmp');
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirsSync(tmpDir);
@@ -22,16 +22,16 @@ const filemove = (oldpath, newpath, done) => {
   fs.rename(oldpath, newpath, (err) => {
     if (err) return done(err);
   });
-}
+};
 
-router.post('/', upload.array('file', 12), (req, res, next) => {
+router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
   req.files.forEach((file) => {
     let isMatch = false;
     const newDir = path.join(uploadDir, req.body.dir);
     const newPath = path.join(newDir, file.originalname);
-    for (operate of operates) {
-      let match = new Array();
+    for (let operate of operates) {
+      let match = [];
       if ('match' in operate) {
         match = file.originalname.match(operate.match);
         if (!match) {
@@ -55,23 +55,23 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
         renamePath = path.join(newDir, renamePath);
         console.log(`rename: ${renamePath}`);
         filemove(file.path, renamePath, (err) => {
-            console.error(`rename error: ${err}`);
+          console.error(`rename error: ${err}`);
         });
-        execOpt['env']['filepath'] = path.relative(uploadDir, renamePath);
-        execOpt['env']['dirname'] = path.relative(uploadDir, path.dirname(renamePath));
+        execOpt.env.filepath = path.relative(uploadDir, renamePath);
+        execOpt.env.dirname = path.relative(uploadDir, path.dirname(renamePath));
       } else {
         console.log(`file: ${newPath}`);
         filemove(file.path, newPath, (err) => {
-            console.error(`rename error: ${err}`);
+          console.error(`rename error: ${err}`);
         });
       }
       if ('post' in operate) {
         console.log(`post: ${operate.post}`);
         let postStdout = childProcess.execSync(operate.post, execOpt).toString().trim();
-        postStdout = postStdout.replace(/\n/g, '\nstdout: ')
+        postStdout = postStdout.replace(/\n/g, '\nstdout: ');
         console.log(`stdout: ${postStdout}`);
       }
-      if (! 'break'in operate) {
+      if (!('break'in operate)) {
         break;
       } else {
         if (operate.break) {
@@ -87,10 +87,10 @@ router.post('/', upload.array('file', 12), (req, res, next) => {
     }
   });
   res.format({
-    text: function(){
+    text: () => {
       res.send('Upload Success!\n');
     },
-    html: function(){
+    html: () => {
       res.render('success', {
         message: 'Upload Success!'
       });
