@@ -23,6 +23,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
       filename: file.originalname,
       filepath: file.path
     };
+    console.log(`upload: ${JSON.stringify(data)}`);
     for (let operate of operates) {
       if ('match' in operate) {
         let match = [];
@@ -33,6 +34,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
         data.match = match;
       }
       data.operate = operate;
+      console.log(`push: ${JSON.stringify(operate)}`);
       queue.file.push(JSON.parse(JSON.stringify(data)));
       if ('break' in operate) {
         if (operate.break) {
