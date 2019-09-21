@@ -24,15 +24,15 @@ router.post('/', upload.array('file', 12), (req, res) => {
       filepath: file.path
     };
     for (let operate of operates) {
-      let match = [];
       if ('match' in operate) {
+        let match = [];
         match = file.originalname.match(operate.match);
         if (!match) {
           continue;
         }
+        data.match = match;
       }
       data.operate = operate;
-      data.match = match;
       queue.file.push(JSON.parse(JSON.stringify(data)));
       if ('break' in operate) {
         if (operate.break) {
