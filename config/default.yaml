@@ -11,11 +11,13 @@ Operate:
       rename: ${dest}/${filename}
     -
       match: .+\.rpm
-      post: createrepo ${dirname}/..
+      exec: createrepo ${dirname}/..
   Remove:
     -
+      unlink: ${filepath}
+    -
       match: .+\.rpm
-      post: createrepo ${dirname}/..
+      exec: createrepo ${dirname}/..
 
 List:
   exclude:
