@@ -23,5 +23,6 @@ COPY public $APP_ROOT/public
 COPY routes $APP_ROOT/routes
 COPY views $APP_ROOT/views
 COPY lib $APP_ROOT/lib
+COPY templates $APP_ROOT/templates
 EXPOSE 3000
 CMD ["npm", "start"]

@@ -1,0 +1,7 @@
+<% repos.forEach(function (repo) { %>
+[<%= repo.title %>-<%= repo.name %>]
+name=<%= repo.title %> <%= repo.name %>
+baseurl=<%= repo.base %>/<%= repo.dir %>
+enabled=1
+gpgcheck=0
+<% }) %>
