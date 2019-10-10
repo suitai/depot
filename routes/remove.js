@@ -4,15 +4,15 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
-const childProcess = require('child_process');
 
-const uploadDir = process.env.UPLOAD_DIR
+const queue = require('../lib/queue.js');
 
-router.get('/', (req, res, next) => {
+const uploadDir = process.env.UPLOAD_DIR;
+
+router.get('/', (req, res) => {
   const operates = config.get('Operate.Remove');
   const reqpath = req.query.path;
   const filepath = path.join(uploadDir, req.query.path);
-  const dirname = path.dirname(filepath);
 
   if (path.resolve(filepath).indexOf(path.resolve(uploadDir)) != 0 ) {
     res.send({error: `${reqpath} is Invalid.`});
@@ -23,49 +23,34 @@ router.get('/', (req, res, next) => {
   if (fs.statSync(filepath).isDirectory()) {
     res.send({error: `${reqpath} is a directory.`});
   }
-  fs.unlink(filepath, (err) => {
-    if (err) {
-      console.error(`remove error: ${err}`);
-    }
-  });
 
-  for (operate of operates) {
-    let match = new Array();
+  let data = {
+    filepath: filepath
+  };
+  console.log(`remove: ${JSON.stringify(data)}`);
+  for (let operate of operates) {
     if ('match' in operate) {
+      let match = [];
       match = reqpath.match(operate.match);
       if (!match) {
         continue;
       }
-      isMatch = true;
+      data.match = match;
     }
-    let execOpt = {
-      cwd: uploadDir,
-      env: {
-        filepath: reqpath,
-        dirname: path.dirname(reqpath),
-        match_0: match[0],
-        match_1: match[1]
-      }
-    };
-    if ('post' in operate) {
-      console.log(`post: ${operate.post}`);
-      let postStdout = childProcess.execSync(operate.post, execOpt).toString().trim();
-      postStdout = postStdout.replace(/\n/g, '\nstdout: ')
-      console.log(`stdout: ${postStdout}`);
-    }
-    if (! 'break' in operate) {
-      break;
-    } else {
+    data.operate = operate;
+    console.log(`push: ${JSON.stringify(operate)}`);
+    queue.file.push(JSON.parse(JSON.stringify(data)));
+    if ('break' in operate) {
       if (operate.break) {
         break;
       }
     }
   }
   res.format({
-    text: function(){
+    text: () => {
       res.send(`${reqpath} Remove!\n`);
     },
-    html: function(){
+    html: () => {
       res.render('success', {
         message: `${reqpath} Remove!`
       });

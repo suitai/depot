@@ -8,17 +8,16 @@ Directory:
 Operate:
   Upload:
     -
-      match: .+\.noarch\.rpm
-      rename: x86_64/Packages/${filename}
-      post: createrepo ${dirname}/..
+      rename: ${dest}/${filename}
     -
-      match: .+\.(.+)\.rpm
-      rename: ${match_1}/Packages/${filename}
-      post: createrepo ${dirname}/..
+      match: .+\.rpm
+      exec: createrepo ${dirname}/..
   Remove:
     -
-      match: .+\.(.+)\.rpm
-      post: createrepo ${dirname}/..
+      unlink: ${filepath}
+    -
+      match: .+\.rpm
+      exec: createrepo ${dirname}/..
 
 List:
   exclude:

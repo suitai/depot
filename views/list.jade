@@ -4,7 +4,16 @@ div#list
       tr
         th(scope="col") #
         th(scope="col") Path
+        th(scope="col") Bytes
+        th(scope="col") Time
+        th(scope="col") Remove
     tbody
       tr(v-for="(item, index in list")
         th(scope="col") {{ index }}
-        td {{ item }}
+        td
+           a(v-bind:href="item.url" ) {{ item.path }}
+        td(align="right") {{ item.size }}
+        td {{ item.mtime }}
+        td
+           button.btn(v-on:click="remove(item.path)")
+             i.fas.fa-trash-alt
