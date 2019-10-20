@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const bodyParser = require('body-parser');
-const serveIndex = require('serve-index')
+const serveIndex = require('serve-index');
 const basicAuth = require('basic-auth-connect');
 
 const indexRouter = require('./routes/index');
