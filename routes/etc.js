@@ -22,14 +22,12 @@ router.get('/yum.repo', (req, res) => {
         name: path.basename(path.join(file.path, '..', '..')), 
         dir: path.relative(uploadDir, path.join(file.path, '..', '..'))
       };
-      console.log(repo);
       repos.push(repo);
     });
-    console.log(repos);
+    console.log(`repos: ${JSON.stringify(repos)}`);
     ejs.renderFile('./templates/yum.repo.ejs', {
       repos: repos
     }, (err, data) => {
-      console.log(data);
       res.send(err || data);
     });
   });
