@@ -1,4 +1,8 @@
 h1= title
 p Welcome to #{title}
 
+p.margin-top Download yum.repo
+pre
+  code curl --basic -u <i>username</i>:<i>password</i> #{url}etc/yum.repo | sudo tee /etc/yum.repos.d/#{title}.repo
+
 a(href=download) Downloads
