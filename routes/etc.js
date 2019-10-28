@@ -16,11 +16,12 @@ router.get('/yum.repo', (req, res) => {
   search.files(uploadDir, option, (err, list) => {
     if (err) throw err;
     list.forEach((file) => {
+      let relativePath = path.relative(uploadDir, path.join(file.path, '..', '..'));
       let repo = {
         title: process.env.TITLE,
         base: req.protocol + '://' + req.headers.host + process.env.DOWNLOAD_DIR,
-        name: path.basename(path.join(file.path, '..', '..')), 
-        dir: path.relative(uploadDir, path.join(file.path, '..', '..'))
+        name: relativePath.replace(/\//g, '-'),
+        dir: relativePath
       };
       repos.push(repo);
     });
