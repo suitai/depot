@@ -12,12 +12,16 @@ Operate:
     -
       match: .+\.rpm
       exec: createrepo ${dirname}/..
+    -
+      unlink: .cache/files.json
   Remove:
     -
       unlink: ${filepath}
     -
       match: .+\.rpm
       exec: createrepo ${dirname}/..
+    -
+      unlink: .cache/files.json
 
 List:
   ignore:
