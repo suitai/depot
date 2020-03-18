@@ -9,13 +9,10 @@ block content
         template(v-slot:extension)
           v-tabs(v-model="tab", align-with-title)
             v-tab(href="#home") Home
-            v-tab(href="#upload") Upload
             v-tab(href="#files") Files
 
       v-tabs-items(v-model="tab")
         v-tab-item#home
           include home
-        v-tab-item#upload
-          include upload
         v-tab-item#files
           include list
