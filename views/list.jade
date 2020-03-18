@@ -1,5 +1,5 @@
 v-form(ref="form")
-  v-text-field(v-model="uploadDest",label="Destination")
+  v-text-field(v-model="uploadDest", label="Folder", prepend-icon="mdi-folder-outline")
   v-file-input(chips, show-size, counter, multiple, v-model="uploadFiles", label="Files")
   v-btn(@click="upload") Upload
 
