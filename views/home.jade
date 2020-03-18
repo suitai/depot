@@ -1,11 +1,11 @@
-p Welcome to #{title}
+p.title.font-weight-bold.mt-3 Welcome to #{title}
 
 a(href=download) Downloads
 
-p.margin-top Download yum.repo
+p.mt-3 Download yum.repo
 pre
-  code curl --basic -u <i>username</i>:<i>password</i> #{url}etc/yum.repo | sudo tee /etc/yum.repos.d/#{title}.repo
+  kbd curl --basic -u <i>username</i>:<i>password</i> #{url}etc/yum.repo | sudo tee /etc/yum.repos.d/#{title}.repo
 
-p.margin-top Upload files with curl
+p.mt-3 Upload files with curl
 pre
-  code curl --basic -u <i>username</i>:<i>password</i> -F "dest=Test" -F "file=@filename" #{url}upload
+  kbd curl --basic -u <i>username</i>:<i>password</i> -F "dest=Test" -F "file=@filename" #{url}upload
