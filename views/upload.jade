@@ -1,8 +1,0 @@
-p.margin-top Upload files with curl
-pre
-  code curl --basic -u <i>username</i>:<i>password</i> -F "dest=Test" -F "file=@filename" #{url}upload
-
-v-form(ref="form")
-  v-text-field(v-model="uploadDest",label="Destination")
-  v-file-input(chips, show-size, counter, multiple, v-model="uploadFiles", label="Files")
-  v-btn(@click="upload") Upload
