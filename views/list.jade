@@ -1,19 +1,6 @@
 div#list
-  table.table
-    thead
-      tr
-        th(scope="col") #
-        th(scope="col") Path
-        th(scope="col") Bytes
-        th(scope="col") Time
-        th(scope="col") Remove
-    tbody
-      tr(v-for="(item, index in list")
-        th(scope="col") {{ index }}
-        td
-           a(v-bind:href="item.url" ) {{ item.path }}
-        td(align="right") {{ item.size }}
-        td {{ item.mtime }}
-        td
-           button.btn(v-on:click="remove(item.path)")
-             i.fas.fa-trash-alt
+  v-data-table(:headers="fileListHeaders", :items="fileList", :items-per-page="10", class="elevation-1")
+    template(v-slot:item.path="{ item }")
+      a(v-bind:href="item.url" ) {{ item.path }}
+    template(v-slot:item.remove="{ item }")
+      v-icon(small, @click="remove(item.path)") mdi-delete
