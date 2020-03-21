@@ -11,8 +11,21 @@ services:
       NODE_ENV: development
       BASIC_USER: depot
       BASIC_PASSWORD: depot
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     ports:
       - '3000:3000'
     volumes:
       - ./public/ftp:/opt/app-root/src/depot/public/ftp
       - ./config:/opt/app-root/src/depot/config
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - redis-data:/var/lib/redis:Z
+
+volumes:
+  redis-data:

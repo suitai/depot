@@ -12,14 +12,8 @@ window.onload = function () {
                path: path
              }
           })
-	        .catch(error => (console.log(error)));
+          .catch(error => (console.log(error)));
       })
-    },
-    mounted () {
-      axios
-        .get('./list')
-        .then(response => (this.list = response.data))
-        .catch(error => (console.log(error)));
     }
   });
   setInterval(() => {

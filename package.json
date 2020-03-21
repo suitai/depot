@@ -6,9 +6,9 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "async": "^3.1.0",
     "basic-auth-connect": "^1.0.0",
     "body-parser": "^1.18.3",
+    "bull": "^3.12.1",
     "config": "^3.0.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
@@ -17,7 +17,7 @@
     "fs-extra": "^7.0.1",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
-    "js-yaml": "^3.12.1",
+    "js-yaml": "^3.13.1",
     "morgan": "~1.9.0",
     "multer": "^1.4.1",
     "serve-index": "^1.9.1"
