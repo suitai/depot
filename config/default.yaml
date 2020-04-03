@@ -10,18 +10,18 @@ Operate:
     -
       rename: ${dest}/${filename}
     -
+      unlink: .cache/files.json
+    -
       match: .+\.rpm
       exec: createrepo ${dirname}/..
-    -
-      unlink: .cache/files.json
   Remove:
     -
       unlink: ${filepath}
     -
+      unlink: .cache/files.json
+    -
       match: .+\.rpm
       exec: createrepo ${dirname}/..
-    -
-      unlink: .cache/files.json
 
 List:
   ignore:
