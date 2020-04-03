@@ -8,4 +8,13 @@ v-data-table.elevation-1(:headers="fileListHeaders", :items="fileList", :items-p
   template(v-slot:item.path="{ item }")
     a(v-bind:href="item.url" ) {{ item.path }}
   template(v-slot:item.remove="{ item }")
-    v-icon(small, @click="remove(item.path)") mdi-delete
+    v-icon(small, @click="confirmRemove(item.path)") mdi-delete
+
+v-dialog(v-model="confirmDialog", max-width="30%")
+  v-card
+    v-card-title Are you sure you want to remove?
+    v-card-text {{ removePath }}
+    v-card-actions.pt-0
+      v-spacer
+      v-btn(color="primary", text, @click="remove(removePath)") OK
+      v-btn(color="accent", text, @click="confirmDialog = false") Cancel

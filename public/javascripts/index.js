@@ -13,6 +13,8 @@ window.onload = function () {
         {text: 'Remove', value: 'remove', sortable: false}
       ],
       fileList: [],
+      confirmDialog: false,
+      removePath: null,
     },
     methods: {
       upload: function () {
@@ -27,6 +29,10 @@ window.onload = function () {
         .then(response => (console.log(response)))
         .catch(error => (console.log(error)));
       },
+      confirmRemove: function (path) {
+        this.removePath = path;
+        this.confirmDialog = true;
+      },
       remove: function (path) {
         axios
           .get('./remove', {
@@ -35,6 +41,9 @@ window.onload = function () {
              }
           })
           .catch(error => (console.log(error)));
+        setTimeout(() => {
+          this.confirmDialog = false;
+        }, 1000);
       },
       list: function () {
         axios
