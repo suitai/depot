@@ -9,7 +9,8 @@ window.onload = function () {
       uploadDialog: false,
       uploadPercentage: 0,
       fileListHeaders: [
-        {text: 'Path', value: 'path'},
+        {text: 'Dirname', value: 'dirname'},
+        {text: 'Name', value: 'basename'},
         {text: 'Bytes', value: 'size'},
         {text: 'Time', value: 'mtime'},
         {text: 'Remove', value: 'remove', sortable: false}
