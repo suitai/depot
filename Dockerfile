@@ -19,7 +19,8 @@ RUN npm install && npm cache verify && \
 
 COPY app.js $APP_ROOT/
 COPY bin $APP_ROOT/bin
-COPY public $APP_ROOT/public
+COPY public/javascripts $APP_ROOT/public/javascripts
+COPY public/stylesheets $APP_ROOT/public/stylesheets
 COPY routes $APP_ROOT/routes
 COPY views $APP_ROOT/views
 COPY lib $APP_ROOT/lib
