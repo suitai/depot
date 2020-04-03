@@ -40,10 +40,14 @@ window.onload = function () {
                path: path
              }
           })
-          .catch(error => (console.log(error)));
-        setTimeout(() => {
-          this.confirmDialog = false;
-        }, 1000);
+          .then((response) => {
+            this.confirmDialog = false;
+            console.log(response);
+          })
+          .catch(error => {
+            this.confirmDialog = false;
+            console.log(error);
+          });
       },
       list: function () {
         axios
