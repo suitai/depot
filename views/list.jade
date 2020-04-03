@@ -2,7 +2,8 @@ v-card.pb-3(flat)
   v-form(ref="form")
     v-text-field(v-model="uploadDest", label="Folder", prepend-icon="mdi-folder-outline")
     v-file-input(chips, show-size, counter, multiple, v-model="uploadFiles", label="Files")
-    v-btn(@click="upload") Upload
+    v-btn(color="primary", @click="upload") Upload
+
 
 v-data-table.elevation-1(:headers="fileListHeaders", :items="fileList", :items-per-page="10")
   template(v-slot:item.path="{ item }")
