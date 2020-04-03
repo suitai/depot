@@ -6,6 +6,8 @@ window.onload = function () {
       tab: null,
       uploadDest: '',
       uploadFiles: [],
+      uploadDialog: false,
+      uploadPercentage: 0,
       fileListHeaders: [
         {text: 'Path', value: 'path'},
         {text: 'Bytes', value: 'size'},
@@ -18,16 +20,31 @@ window.onload = function () {
     },
     methods: {
       upload: function () {
+        this.uploadPercentage = 0;
+        this.uploadDialog = true;
+
         let formData = new FormData();
         formData.set('dest', this.uploadDest);
         for (let file of this.uploadFiles) {
           formData.append('file', file);
         }
-        axios.post('./upload', formData, { headers: {
-          'Content-Type': 'multipart/form-data'
-        }})
-        .then(response => (console.log(response)))
-        .catch(error => (console.log(error)));
+
+        let config = {
+          headers: {'Content-Type': 'multipart/form-data'},
+          onUploadProgress: function( progressEvent ) {
+            this.uploadPercentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+          }.bind(this)
+        };
+
+        axios.post('./upload', formData, config)
+        .then((response) => {
+          this.uploadDialog = false;
+          console.log(response);
+        })
+        .catch((error) => {
+          this.uploadDialog = false;
+          console.log(error);
+        });
       },
       confirmRemove: function (path) {
         this.removePath = path;
