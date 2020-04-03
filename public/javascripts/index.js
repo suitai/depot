@@ -22,6 +22,9 @@ window.onload = function () {
       errorMessage: '',
     },
     methods: {
+      resetUploadForm: function () {
+        this.$refs.uploadForm.reset();
+      },
       upload: function () {
         this.uploadPercentage = 0;
         this.uploadDialog = true;
@@ -43,6 +46,7 @@ window.onload = function () {
         .then((response) => {
           this.uploadDialog = false;
           console.log(response);
+          this.resetUploadForm();
         })
         .catch((error) => {
           this.uploadDialog = false;

@@ -1,5 +1,5 @@
 v-card.pb-3(flat)
-  v-form(ref="form")
+  v-form(ref="uploadForm")
     v-text-field(v-model="uploadDest", label="Dirname", prepend-icon="mdi-folder-outline")
     v-file-input(chips, show-size, counter, multiple, v-model="uploadFiles", label="Files")
     v-btn(color="primary", :disabled="uploadDialog", :loading="uploadDialog", @click="upload") Upload
