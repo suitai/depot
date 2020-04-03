@@ -15,13 +15,19 @@ router.get('/', (req, res) => {
   const filepath = path.join(uploadDir, req.query.path);
 
   if (path.resolve(filepath).indexOf(path.resolve(uploadDir)) != 0 ) {
-    res.send({error: `${reqpath} is Invalid.`});
+    console.log(`${reqpath} is Invalid.`);
+    res.status(400).send(`${reqpath} is Invalid.`);
+    return;
   }
   if (!fs.existsSync(filepath)) {
-    res.send({error: `${reqpath} Not Found.`});
+    console.log(`${reqpath} Not Found.`);
+    res.status(400).send(`${reqpath} Not Found.`);
+    return;
   }
   if (fs.statSync(filepath).isDirectory()) {
-    res.send({error: `${reqpath} is a directory.`});
+    console.log(`${reqpath} is a directory.`);
+    res.status(400).send(`${reqpath} is a directory.`);
+    return;
   }
 
   let data = {

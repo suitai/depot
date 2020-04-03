@@ -23,3 +23,11 @@ v-dialog(v-model="confirmDialog", max-width="30%")
       v-spacer
       v-btn(color="primary", text, @click="remove(removePath)") OK
       v-btn(color="accent", text, @click="confirmDialog = false") Cancel
+
+v-dialog(v-model="errorDialog", max-width="30%")
+  v-card
+    v-card-title Error
+    v-card-text {{ errorMessage }}
+    v-card-actions.pt-0
+      v-spacer
+      v-btn(text, @click="errorDialog = false") Close

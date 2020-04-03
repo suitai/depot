@@ -16,7 +16,9 @@ window.onload = function () {
       ],
       fileList: [],
       confirmDialog: false,
-      removePath: null,
+      removePath: '',
+      errorDialog: false,
+      errorMessage: '',
     },
     methods: {
       upload: function () {
@@ -43,7 +45,9 @@ window.onload = function () {
         })
         .catch((error) => {
           this.uploadDialog = false;
-          console.log(error);
+          console.log(error.response.data);
+          this.errorMessage = error.response.data;
+          this.errorDialog = true;
         });
       },
       confirmRemove: function (path) {
@@ -63,7 +67,9 @@ window.onload = function () {
           })
           .catch(error => {
             this.confirmDialog = false;
-            console.log(error);
+            console.log(error.response.data);
+            this.errorMessage = error.response.data;
+            this.errorDialog = true;
           });
       },
       list: function () {
