@@ -26,6 +26,12 @@ window.onload = function () {
       resetUploadForm: function () {
         this.$refs.uploadForm.reset();
       },
+      errorHandle: function (error) {
+        console.error('Error: ' + error.response.data);
+        this.errorStatus = error.response.status;
+        this.errorMessage = error.response.data;
+        this.errorDialog = true;
+      },
       upload: function () {
         this.uploadPercentage = 0;
         this.uploadDialog = true;
@@ -51,10 +57,7 @@ window.onload = function () {
         })
         .catch((error) => {
           this.uploadDialog = false;
-          console.error('Error: ' + error.response.data);
-          this.errorStatus = error.response.status;
-          this.errorMessage = error.response.data;
-          this.errorDialog = true;
+          this.errorHandle(error);
         });
       },
       confirmRemove: function (path) {
@@ -74,10 +77,7 @@ window.onload = function () {
           })
           .catch(error => {
             this.confirmDialog = false;
-            console.error('Error: ' + error.response.data);
-            this.errorStatus = error.response.status;
-            this.errorMessage = error.response.data;
-            this.errorDialog = true;
+            this.errorHandle(error);
           });
       },
       list: function () {
