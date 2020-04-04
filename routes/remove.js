@@ -2,35 +2,30 @@ const express = require('express');
 const router = express.Router();
 
 const fs = require('fs');
-const path = require('path');
 const config = require('config');
 
 const queue = require('../lib/queue.js');
-
-const uploadDir = process.env.UPLOAD_DIR;
-const downloadDir = process.env.DOWNLOAD_DIR;
+const util = require('../lib/util.js');
 
 router.get('/', (req, res) => {
   const operates = config.get('Operate.Remove');
-  const reqpath = req.query.path;
-  let filepath = path.join(uploadDir, reqpath);;
-  if (reqpath.indexOf(downloadDir) == 0) {
-    filepath = path.join(uploadDir, reqpath.substr(downloadDir.length));
-  }
+  let filepath = util.convert.path(req.query.path);
 
-  if (path.resolve(filepath).indexOf(path.resolve(uploadDir)) != 0 ) {
-    console.log(`${reqpath} is Invalid.`);
-    res.status(400).send(`${reqpath} is Invalid.`);
+  console.log(filepath);
+  if (!util.check.path(filepath)) {
+    console.log(`${req.query.path} is Invalid.`);
+    res.status(400).send(`${req.query.path} is Invalid.`);
     return;
   }
+
   if (!fs.existsSync(filepath)) {
-    console.log(`${reqpath} Not Found.`);
-    res.status(400).send(`${reqpath} Not Found.`);
+    console.log(`${req.query.path} Not Found.`);
+    res.status(400).send(`${req.query.path} Not Found.`);
     return;
   }
   if (fs.statSync(filepath).isDirectory()) {
-    console.log(`${reqpath} is a directory.`);
-    res.status(400).send(`${reqpath} is a directory.`);
+    console.log(`${req.query.path} is a directory.`);
+    res.status(400).send(`${req.query.path} is a directory.`);
     return;
   }
 
@@ -41,7 +36,7 @@ router.get('/', (req, res) => {
   for (let operate of operates) {
     if ('match' in operate) {
       let match = [];
-      match = reqpath.match(operate.match);
+      match = req.query.path.match(operate.match);
       if (!match) {
         continue;
       }
