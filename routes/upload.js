@@ -59,16 +59,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
       }
     }
   });
-  res.format({
-    text: () => {
-      res.send('Upload Success!\n');
-    },
-    html: () => {
-      res.render('success', {
-        message: 'Upload Success!'
-      });
-    }
-  });
+  res.send('Upload Success!\n');
 });
 
 module.exports = router;

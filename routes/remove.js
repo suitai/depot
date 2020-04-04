@@ -56,16 +56,7 @@ router.get('/', (req, res) => {
       }
     }
   }
-  res.format({
-    text: () => {
-      res.send(`${reqpath} Remove!\n`);
-    },
-    html: () => {
-      res.render('success', {
-        message: `${reqpath} Remove!`
-      });
-    }
-  });
+  res.send(`${req.query.path} Remove!\n`);
 });
 
 module.exports = router;
