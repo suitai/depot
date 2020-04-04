@@ -26,7 +26,7 @@ v-dialog(v-model="confirmDialog", max-width="30%")
 
 v-dialog(v-model="errorDialog", max-width="30%")
   v-card
-    v-card-title Error
+    v-card-title Error {{ errorStatus }}
     v-card-text {{ errorMessage }}
     v-card-actions.pt-0
       v-spacer

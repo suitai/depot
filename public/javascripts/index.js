@@ -19,6 +19,7 @@ window.onload = function () {
       confirmDialog: false,
       removePath: '',
       errorDialog: false,
+      errorStatus: '',
       errorMessage: '',
     },
     methods: {
@@ -51,6 +52,7 @@ window.onload = function () {
         .catch((error) => {
           this.uploadDialog = false;
           console.error('Error: ' + error.response.data);
+          this.errorStatus = error.response.status;
           this.errorMessage = error.response.data;
           this.errorDialog = true;
         });
@@ -73,6 +75,7 @@ window.onload = function () {
           .catch(error => {
             this.confirmDialog = false;
             console.error('Error: ' + error.response.data);
+            this.errorStatus = error.response.status;
             this.errorMessage = error.response.data;
             this.errorDialog = true;
           });
