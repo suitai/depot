@@ -81,12 +81,7 @@ window.onload = function () {
         axios
           .get('./list')
           .then((response) => {
-            let files = [];
-            for (let file of response.data) {
-              file.url = location.protocol + '//' + location.host + file.path;
-              files.push(file);
-            }
-            this.fileList = files;
+            this.fileList = response.data;
           })
           .catch(error => (console.log(error)));
       },

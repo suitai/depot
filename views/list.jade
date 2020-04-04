@@ -11,7 +11,7 @@ v-dialog(v-model="uploadDialog", persistent, width="300")
 
 v-data-table.elevation-1(:headers="fileListHeaders", :items="fileList", item-key="path", group-by="dirname")
   template(v-slot:item.basename="{ item }")
-    a(v-bind:href="item.url" ) {{ item.basename }}
+    a(v-bind:href="item.path" ) {{ item.basename }}
   template(v-slot:item.remove="{ item }")
     v-icon(small, @click="confirmRemove(item.path)") mdi-delete
 
