@@ -8,7 +8,9 @@ Directory:
 Operate:
   Upload:
     -
-      rename: ${dest}/${filename}
+      rename:
+        src: ${filepath}
+        dest: ${dest}/${filename}
     -
       unlink: .cache/files.json
     -
