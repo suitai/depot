@@ -12,7 +12,7 @@ Operate:
         src: ${filepath}
         dest: ${dest}/${filename}
     -
-      unlink: .cache/files.json
+      create: fileList
     -
       match: .+\.rpm
       exec: createrepo ${dirname}/..
@@ -20,7 +20,7 @@ Operate:
     -
       unlink: ${filepath}
     -
-      unlink: .cache/files.json
+      create: fileList
     -
       match: .+\.rpm
       exec: createrepo ${dirname}/..
