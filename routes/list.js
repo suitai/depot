@@ -8,6 +8,7 @@ const path = require('path');
 const search = require('../lib/search.js');
 
 const uploadDir = process.env.UPLOAD_DIR;
+const downloadDir = process.env.DOWNLOAD_DIR;
 const cacheDir = path.join(uploadDir, '.cache');
 if (!fs.existsSync(cacheDir)) {
   fs.mkdirsSync(cacheDir);
@@ -16,15 +17,13 @@ const listFile = path.join(cacheDir, 'files.json')
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  const uploadDir = process.env.UPLOAD_DIR;
+  const baseUrl = req.protocol + '://' + req.headers.host + downloadDir + '/';
   const option = {
-    baseDir: uploadDir,
-    baseUrl: req.protocol + '://' + req.headers.host + process.env.DOWNLOAD_DIR + '/',
     ignore: config.get('List').ignore
   };
   fs.stat(listFile, (err, stat) => {
     if (err == null) {
-      res.redirect(option.baseUrl + '.cache/files.json')
+      res.redirect(baseUrl + '.cache/files.json')
     } else {
       search.files(uploadDir, option, (err, list) => {
         if (err) throw err;
