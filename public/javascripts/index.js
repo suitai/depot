@@ -50,7 +50,7 @@ window.onload = function () {
         })
         .catch((error) => {
           this.uploadDialog = false;
-          console.log(error.response.data);
+          console.error('Error: ' + error.response.data);
           this.errorMessage = error.response.data;
           this.errorDialog = true;
         });
@@ -72,7 +72,7 @@ window.onload = function () {
           })
           .catch(error => {
             this.confirmDialog = false;
-            console.log(error.response.data);
+            console.error('Error: ' + error.response.data);
             this.errorMessage = error.response.data;
             this.errorDialog = true;
           });
