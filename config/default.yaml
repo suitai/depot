@@ -15,7 +15,7 @@ Operate:
       create: fileList
     -
       match: .+\.rpm
-      exec: createrepo ${dirname}/..
+      exec: createrepo ${dest}/..
   Remove:
     -
       unlink: ${filepath}
