@@ -23,6 +23,13 @@ router.post('/', upload.array('file', 12), (req, res) => {
     reqdest = reqdest.substr(downloadDir.length);
   }
 
+  let destpath = path.join(uploadDir, reqdest);
+  if (path.resolve(destpath).indexOf(path.resolve(uploadDir)) != 0 ) {
+    console.log(`${req.body.dest} is Invalid.`);
+    res.status(400).send(`${req.body.dest} is Invalid.`);
+    return;
+  }
+
   req.files.forEach((file) => {
     let data = {
       dest: reqdest,
