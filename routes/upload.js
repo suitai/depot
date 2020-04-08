@@ -27,6 +27,10 @@ router.post('/', upload.array('file', 12), (req, res) => {
   if (path.resolve(destpath).indexOf(path.resolve(uploadDir)) != 0 ) {
     console.log(`${req.body.dest} is Invalid.`);
     res.status(400).send(`${req.body.dest} is Invalid.`);
+    req.files.forEach((file) => {
+      let filepath = path.relative(uploadDir, file.path);
+      queue.file.push({'operate': {'unlink': filepath}});
+    });
     return;
   }
 
