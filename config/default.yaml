@@ -8,20 +8,22 @@ Directory:
 Operate:
   Upload:
     -
-      rename: ${dest}/${filename}
+      rename:
+        src: ${filepath}
+        dest: ${dest}/${filename}
+    -
+      create: fileList
     -
       match: .+\.rpm
-      exec: createrepo ${dirname}/..
-    -
-      unlink: .cache/files.json
+      exec: createrepo ${dest}/..
   Remove:
     -
       unlink: ${filepath}
     -
+      create: fileList
+    -
       match: .+\.rpm
       exec: createrepo ${dirname}/..
-    -
-      unlink: .cache/files.json
 
 List:
   ignore:

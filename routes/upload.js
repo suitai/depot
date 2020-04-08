@@ -9,6 +9,7 @@ const config = require('config');
 const queue = require('../lib/queue.js');
 
 const uploadDir = process.env.UPLOAD_DIR;
+const downloadDir = process.env.DOWNLOAD_DIR;
 const tmpDir = path.join(uploadDir, '.upload');
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirsSync(tmpDir);
@@ -17,9 +18,24 @@ const upload = multer({ dest: tmpDir });
 
 router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
+  let reqdest = req.body.dest;
+  if (reqdest.indexOf(downloadDir) == 0) {
+    reqdest = reqdest.substr(downloadDir.length);
+  }
+
+  let destpath = path.join(uploadDir, reqdest);
+  if (path.resolve(destpath).indexOf(path.resolve(uploadDir)) != 0 ) {
+    console.log(`${req.body.dest} is Invalid.`);
+    res.status(400).send(`${req.body.dest} is Invalid.`);
+    req.files.forEach((file) => {
+      queue.file.push({'operate': {'unlink': file.path}});
+    });
+    return;
+  }
+
   req.files.forEach((file) => {
     let data = {
-      dest: req.body.dest,
+      dest: destpath,
       filename: file.originalname,
       filepath: file.path
     };

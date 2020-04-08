@@ -1,20 +1,20 @@
 extends layout
 
 block content
-  ul.nav.nav-tabs(role="tablist")
-    li.nav-item.active
-      a.nav-link.active(data-toggle="tab", href="#home", role="tab", aria-controls="home", aria-selected="true") Home
-    li.nav-item.active
-      a.nav-link(data-toggle="tab", href="#upload" role="tab", aria-controls="upload", aria-selected="false") Upload
-    li.nav-item.active
-      a.nav-link(data-toggle="tab", href="#list" role="tab", aria-controls="list", aria-selected="false") Files
+  div#app
+    v-app#inspire
+      v-container
+        v-card(flat)
+          v-toolbar(color="primary", dark, flat)
+            v-toolbar-title #{title}
 
-  div.tab-content
-    div.tab-pane.fade.show.active#home(role="tabpanel", aria-labelledby="home-tab")
-      include home
+            template(v-slot:extension)
+              v-tabs(v-model="tab", align-with-title)
+                v-tab(href="#home") Home
+                v-tab(href="#files") Files
 
-    div.tab-pane.fade#upload(role="tabpanel", aria-labelledby="upload-tab")
-      include upload
-
-    div.tab-pane.fade#list(role="tabpanel", aria-labelledby="files-tab")
-      include list
+          v-tabs-items(v-model="tab")
+            v-tab-item#home
+              include home
+            v-tab-item#files
+              include list

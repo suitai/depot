@@ -1,19 +1,33 @@
-div#list
-  table.table
-    thead
-      tr
-        th(scope="col") #
-        th(scope="col") Path
-        th(scope="col") Bytes
-        th(scope="col") Time
-        th(scope="col") Remove
-    tbody
-      tr(v-for="(item, index in list")
-        th(scope="col") {{ index }}
-        td
-           a(v-bind:href="item.url" ) {{ item.path }}
-        td(align="right") {{ item.size }}
-        td {{ item.mtime }}
-        td
-           button.btn(v-on:click="remove(item.path)")
-             i.fas.fa-trash-alt
+v-card.pb-3(flat)
+  v-form(ref="uploadForm")
+    v-text-field(v-model="uploadDest", label="Dirname", prepend-icon="mdi-folder-outline")
+    v-file-input(chips, show-size, counter, multiple, v-model="uploadFiles", label="Files")
+    v-btn(color="primary", :disabled="uploadDialog", :loading="uploadDialog", @click="upload") Upload
+
+v-dialog(v-model="uploadDialog", persistent, width="300")
+  v-card
+    v-card-text Uploading
+      v-progress-linear.mb-0(v-model="uploadPercentage")
+
+v-data-table.elevation-1(:headers="fileListHeaders", :items="fileList", item-key="path", group-by="dirname")
+  template(v-slot:item.basename="{ item }")
+    a(v-bind:href="item.url" ) {{ item.basename }}
+  template(v-slot:item.remove="{ item }")
+    v-icon(small, @click="confirmRemove(item.path)") mdi-delete
+
+v-dialog(v-model="confirmDialog", max-width="30%")
+  v-card
+    v-card-title Are you sure you want to remove?
+    v-card-text {{ removePath }}
+    v-card-actions.pt-0
+      v-spacer
+      v-btn(color="primary", text, @click="remove(removePath)") OK
+      v-btn(color="accent", text, @click="confirmDialog = false") Cancel
+
+v-dialog(v-model="errorDialog", max-width="30%")
+  v-card
+    v-card-title Error
+    v-card-text {{ errorMessage }}
+    v-card-actions.pt-0
+      v-spacer
+      v-btn(text, @click="errorDialog = false") Close

@@ -6,9 +6,11 @@ const path = require('path');
 
 const search = require('../lib/search.js');
 
+const uploadDir = process.env.UPLOAD_DIR;
+const downloadDir = process.env.DOWNLOAD_DIR;
+
 /* GET home page. */
 router.get('/yum.repo', (req, res) => {
-  const uploadDir = process.env.UPLOAD_DIR;
   const option = {
     filename: 'repomd.xml'
   };
@@ -16,10 +18,11 @@ router.get('/yum.repo', (req, res) => {
   search.files(uploadDir, option, (err, list) => {
     if (err) throw err;
     list.forEach((file) => {
-      let relativePath = path.relative(uploadDir, path.join(file.path, '..', '..'));
+      let filepath = path.join(uploadDir, file.path.substr(downloadDir.length));
+      let relativePath = path.relative(uploadDir, path.join(filepath, '..', '..'));
       let repo = {
         title: process.env.TITLE,
-        base: req.protocol + '://' + req.headers.host + process.env.DOWNLOAD_DIR,
+        base: req.protocol + '://' + req.headers.host + downloadDir,
         name: relativePath.replace(/\//g, '-'),
         dir: relativePath
       };
