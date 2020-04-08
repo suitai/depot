@@ -9,6 +9,7 @@ const config = require('config');
 const queue = require('../lib/queue.js');
 
 const uploadDir = process.env.UPLOAD_DIR;
+const downloadDir = process.env.DOWNLOAD_DIR;
 const tmpDir = path.join(uploadDir, '.upload');
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirsSync(tmpDir);
@@ -17,9 +18,14 @@ const upload = multer({ dest: tmpDir });
 
 router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
+  let reqdest = req.body.dest;
+  if (reqdest.indexOf(downloadDir) == 0) {
+    reqdest = reqdest.substr(downloadDir.length);
+  }
+
   req.files.forEach((file) => {
     let data = {
-      dest: req.body.dest,
+      dest: reqdest,
       filename: file.originalname,
       filepath: file.path
     };
