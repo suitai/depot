@@ -28,15 +28,14 @@ router.post('/', upload.array('file', 12), (req, res) => {
     console.log(`${req.body.dest} is Invalid.`);
     res.status(400).send(`${req.body.dest} is Invalid.`);
     req.files.forEach((file) => {
-      let filepath = path.relative(uploadDir, file.path);
-      queue.file.push({'operate': {'unlink': filepath}});
+      queue.file.push({'operate': {'unlink': file.path}});
     });
     return;
   }
 
   req.files.forEach((file) => {
     let data = {
-      dest: reqdest,
+      dest: destpath,
       filename: file.originalname,
       filepath: file.path
     };
