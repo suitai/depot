@@ -20,6 +20,10 @@ router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
   let destpath = util.convert.path(req.body.dest);
   let realpath = path.join(uploadDir, destpath);
+  let basedir = '';
+  if ('base' in req.body) {
+    basedir = req.body.base;
+  }
 
   if (!util.check.path(realpath)) {
     console.log(`${req.body.dest} is Invalid.`);
@@ -32,6 +36,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
 
   req.files.forEach((file) => {
     let data = {
+      basedir: basedir,
       dest: destpath,
       filename: file.originalname,
       filepath: file.path.substr(uploadDir.length)

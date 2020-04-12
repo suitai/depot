@@ -3,20 +3,20 @@ Operate:
     -
       rename:
         src: ${filepath}
-        dest: ${dest}/${filename}
+        dest: ${basedir}/${dest}/${filename}
     -
       create: fileList
     -
       match: .+\.rpm
-      exec: createrepo ${dest}/..
+      exec: createrepo ${basedir}/${dest}/..
   Remove:
     -
-      unlink: ${filepath}
+      unlink: ${basedir}/${filepath}
     -
       create: fileList
     -
       match: .+\.rpm
-      exec: createrepo ${dirname}/..
+      exec: createrepo ${basedir}/${dirname}/..
 
 List:
   ignore:

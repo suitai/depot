@@ -14,6 +14,10 @@ router.get('/', (req, res) => {
   const operates = config.get('Operate.Remove');
   let filepath = util.convert.path(req.query.path);
   let realpath = path.join(uploadDir, filepath);
+  let basedir = '';
+  if ('base' in req.query) {
+    basedir = req.query.base;
+  }
 
   if (!util.check.path(realpath)) {
     console.log(`${req.query.path} is Invalid.`);
@@ -33,6 +37,7 @@ router.get('/', (req, res) => {
   }
 
   let data = {
+    basedir: basedir,
     filepath: filepath
   };
   console.log(`remove: ${JSON.stringify(data)}`);
