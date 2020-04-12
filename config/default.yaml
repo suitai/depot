@@ -5,7 +5,10 @@ Operate:
         src: ${filepath}
         dest: ${basedir}/${dest}/${filename}
     -
-      create: fileList
+      create:
+        fileList:
+          src: ${basedir}
+          dest: ${basedir}/.cache/files.json
     -
       match: .+\.rpm
       exec: createrepo ${basedir}/${dest}/..
@@ -13,7 +16,10 @@ Operate:
     -
       unlink: ${basedir}/${filepath}
     -
-      create: fileList
+      create:
+        fileList:
+          src: ${basedir}
+          dest: ${basedir}/.cache/files.json
     -
       match: .+\.rpm
       exec: createrepo ${basedir}/${dirname}/..
@@ -22,3 +28,8 @@ List:
   ignore:
     - repodata
     - .cache
+  path: ${basedir}/.cache/files.json
+  create:
+    fileList:
+      src: ${basedir}
+      dest: ${basedir}/.cache/files.json
