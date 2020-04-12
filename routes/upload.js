@@ -19,12 +19,13 @@ const upload = multer({ dest: tmpDir });
 router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
   let destpath = util.convert.path(req.body.dest);
+  let realpath = path.join(uploadDir, destpath);
 
-  if (!util.check.path(destpath)) {
+  if (!util.check.path(realpath)) {
     console.log(`${req.body.dest} is Invalid.`);
     res.status(400).send(`${req.body.dest} is Invalid.`);
     req.files.forEach((file) => {
-      queue.file.push({'operate': {'unlink': file.path}});
+      queue.file.push({'operate': {'unlink': file.path.substr(uploadDir.length)}});
     });
     return;
   }
@@ -33,7 +34,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
     let data = {
       dest: destpath,
       filename: file.originalname,
-      filepath: file.path
+      filepath: file.path.substr(uploadDir.length)
     };
     console.log(`upload: ${JSON.stringify(data)}`);
     for (let operate of operates) {
