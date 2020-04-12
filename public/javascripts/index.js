@@ -4,6 +4,7 @@ window.onload = function () {
     vuetify: new Vuetify(),
     data: {
       tab: null,
+      baseDir: '.',
       uploadDest: '',
       uploadFiles: [],
       uploadDialog: false,
@@ -38,6 +39,8 @@ window.onload = function () {
 
         let formData = new FormData();
         formData.set('dest', this.uploadDest);
+        formData.set('base', this.baseDir);
+
         for (let file of this.uploadFiles) {
           formData.append('file', file);
         }
@@ -68,7 +71,8 @@ window.onload = function () {
         axios
           .get('./remove', {
              params: {
-               path: path
+               path: path,
+               base: this.baseDir
              }
           })
           .then((response) => {
@@ -82,7 +86,11 @@ window.onload = function () {
       },
       list: function () {
         axios
-          .get('./list')
+          .get('./list', {
+            params: {
+              base: this.baseDir
+            }
+          })
           .then((response) => {
             this.fileList = response.data;
           })

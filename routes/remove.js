@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
   const operates = config.get('Operate.Remove');
   let filepath = util.convert.path(req.query.path);
   let realpath = path.join(uploadDir, filepath);
-  let basedir = '';
+  let basedir = '.';
   if ('base' in req.query) {
     basedir = req.query.base;
   }

@@ -20,7 +20,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
   let destpath = util.convert.path(req.body.dest);
   let realpath = path.join(uploadDir, destpath);
-  let basedir = '';
+  let basedir = '.';
   if ('base' in req.body) {
     basedir = req.body.base;
   }
@@ -29,7 +29,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
     console.log(`${req.body.dest} is Invalid.`);
     res.status(400).send(`${req.body.dest} is Invalid.`);
     req.files.forEach((file) => {
-      queue.file.push({'operate': {'unlink': file.path.substr(uploadDir.length)}});
+      queue.file.push({'operate': {'unlink': file.path.substr(uploadDir.length + 1)}});
     });
     return;
   }
@@ -39,7 +39,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
       basedir: basedir,
       dest: destpath,
       filename: file.originalname,
-      filepath: file.path.substr(uploadDir.length)
+      filepath: file.path.substr(uploadDir.length + 1)
     };
     console.log(`upload: ${JSON.stringify(data)}`);
     for (let operate of operates) {

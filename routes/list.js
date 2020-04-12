@@ -14,7 +14,7 @@ const downloadDir = process.env.DOWNLOAD_DIR;
 /* GET home page. */
 router.get('/', (req, res) => {
   const listConfig = config.get('List');
-  let basedir = '';
+  let basedir = '.';
   if ('base' in req.query) {
     basedir = req.query.base;
   }
