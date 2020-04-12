@@ -86,7 +86,7 @@ window.onload = function () {
           .then((response) => {
             this.fileList = response.data;
           })
-          .catch(error => (console.log(error)));
+          .catch(error => (console.log(error.response.data)));
       },
       repeat: function (repeatFunc) {
         setInterval(function () {
