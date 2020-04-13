@@ -1242,6 +1242,11 @@
       "resolved": "https://registry.npmjs.org/vue/-/vue-2.6.11.tgz",
       "integrity": "sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ=="
     },
+    "vuetify": {
+      "version": "2.2.22",
+      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-2.2.22.tgz",
+      "integrity": "sha512-3RFKqLS81xoNdDUldOCpxFhYaqiYVCMpTmovAmyPhidmqC9PaMNuM5aCKkKnOgG/xIN/0SgZg3wJfe0o72RhlQ=="
+    },
     "window-size": {
       "version": "0.1.0",
       "resolved": "https://registry.npmjs.org/window-size/-/window-size-0.1.0.tgz",
