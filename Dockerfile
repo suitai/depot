@@ -14,13 +14,12 @@ ENV APP_ROOT=/opt/app-root/src/depot \
 
 WORKDIR $APP_ROOT
 COPY *.json $APP_ROOT/
-RUN npm install && npm cache verify && \
+RUN npm install --production && npm cache verify && \
     yum install -y createrepo && yum clean all
 
 COPY app.js $APP_ROOT/
 COPY bin $APP_ROOT/bin
 COPY public/javascripts $APP_ROOT/public/javascripts
-COPY public/stylesheets $APP_ROOT/public/stylesheets
 COPY routes $APP_ROOT/routes
 COPY views $APP_ROOT/views
 COPY lib $APP_ROOT/lib

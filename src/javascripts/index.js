@@ -1,4 +1,11 @@
+import Vue from 'vue';
+import Vuetify from 'vuetify';
+import axios from 'axios';
+import 'vuetify/dist/vuetify.min.css';
+import '../stylesheets/style.css'
+
 window.onload = function () {
+  Vue.use(Vuetify);
   new Vue({
     el: '#app',
     vuetify: new Vuetify(),
