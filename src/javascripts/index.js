@@ -1,9 +1,17 @@
+import Vue from 'vue';
+import Vuetify from 'vuetify';
+import axios from 'axios';
+import 'vuetify/dist/vuetify.min.css';
+import '../stylesheets/style.css'
+
 window.onload = function () {
+  Vue.use(Vuetify);
   new Vue({
     el: '#app',
     vuetify: new Vuetify(),
     data: {
       tab: null,
+      baseDir: '.',
       uploadDest: '',
       uploadFiles: [],
       uploadDialog: false,
@@ -19,11 +27,18 @@ window.onload = function () {
       confirmDialog: false,
       removePath: '',
       errorDialog: false,
+      errorStatus: '',
       errorMessage: '',
     },
     methods: {
       resetUploadForm: function () {
         this.$refs.uploadForm.reset();
+      },
+      errorHandle: function (error) {
+        console.error('Error: ' + error.response.data);
+        this.errorStatus = error.response.status;
+        this.errorMessage = error.response.data;
+        this.errorDialog = true;
       },
       upload: function () {
         this.uploadPercentage = 0;
@@ -31,6 +46,8 @@ window.onload = function () {
 
         let formData = new FormData();
         formData.set('dest', this.uploadDest);
+        formData.set('base', this.baseDir);
+
         for (let file of this.uploadFiles) {
           formData.append('file', file);
         }
@@ -50,9 +67,7 @@ window.onload = function () {
         })
         .catch((error) => {
           this.uploadDialog = false;
-          console.error('Error: ' + error.response.data);
-          this.errorMessage = error.response.data;
-          this.errorDialog = true;
+          this.errorHandle(error);
         });
       },
       confirmRemove: function (path) {
@@ -63,7 +78,8 @@ window.onload = function () {
         axios
           .get('./remove', {
              params: {
-               path: path
+               path: path,
+               base: this.baseDir
              }
           })
           .then((response) => {
@@ -72,23 +88,20 @@ window.onload = function () {
           })
           .catch(error => {
             this.confirmDialog = false;
-            console.error('Error: ' + error.response.data);
-            this.errorMessage = error.response.data;
-            this.errorDialog = true;
+            this.errorHandle(error);
           });
       },
       list: function () {
         axios
-          .get('./list')
-          .then((response) => {
-            let files = [];
-            for (let file of response.data) {
-              file.url = location.protocol + '//' + location.host + file.path;
-              files.push(file);
+          .get('./list', {
+            params: {
+              base: this.baseDir
             }
-            this.fileList = files;
           })
-          .catch(error => (console.log(error)));
+          .then((response) => {
+            this.fileList = response.data;
+          })
+          .catch(error => (console.log(error.response.data)));
       },
       repeat: function (repeatFunc) {
         setInterval(function () {

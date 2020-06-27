@@ -7,9 +7,9 @@ const path = require('path');
 const config = require('config');
 
 const queue = require('../lib/queue.js');
+const util = require('../lib/util.js');
 
 const uploadDir = process.env.UPLOAD_DIR;
-const downloadDir = process.env.DOWNLOAD_DIR;
 const tmpDir = path.join(uploadDir, '.upload');
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirsSync(tmpDir);
@@ -18,26 +18,28 @@ const upload = multer({ dest: tmpDir });
 
 router.post('/', upload.array('file', 12), (req, res) => {
   const operates = config.get('Operate.Upload');
-  let reqdest = req.body.dest;
-  if (reqdest.indexOf(downloadDir) == 0) {
-    reqdest = reqdest.substr(downloadDir.length);
+  let destpath = util.convert.path(req.body.dest);
+  let realpath = path.join(uploadDir, destpath);
+  let basedir = '.';
+  if ('base' in req.body) {
+    basedir = req.body.base;
   }
 
-  let destpath = path.join(uploadDir, reqdest);
-  if (path.resolve(destpath).indexOf(path.resolve(uploadDir)) != 0 ) {
+  if (!util.check.path(realpath)) {
     console.log(`${req.body.dest} is Invalid.`);
     res.status(400).send(`${req.body.dest} is Invalid.`);
     req.files.forEach((file) => {
-      queue.file.push({'operate': {'unlink': file.path}});
+      queue.file.push({'operate': {'unlink': file.path.substr(uploadDir.length + 1)}});
     });
     return;
   }
 
   req.files.forEach((file) => {
     let data = {
+      basedir: basedir,
       dest: destpath,
       filename: file.originalname,
-      filepath: file.path
+      filepath: file.path.substr(uploadDir.length + 1)
     };
     console.log(`upload: ${JSON.stringify(data)}`);
     for (let operate of operates) {
@@ -59,16 +61,7 @@ router.post('/', upload.array('file', 12), (req, res) => {
       }
     }
   });
-  res.format({
-    text: () => {
-      res.send('Upload Success!\n');
-    },
-    html: () => {
-      res.render('success', {
-        message: 'Upload Success!'
-      });
-    }
-  });
+  res.send('Upload Success!\n');
 });
 
 module.exports = router;

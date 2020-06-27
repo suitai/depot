@@ -1,31 +1,35 @@
-Directory:
-  - Test/7
-  - Stable/7
-  - Tool/7
-  - Documents
-  - Pictures
-
 Operate:
   Upload:
     -
       rename:
         src: ${filepath}
-        dest: ${dest}/${filename}
+        dest: ${basedir}/${dest}/${filename}
     -
-      create: fileList
+      create:
+        fileList:
+          src: ${basedir}
+          dest: ${basedir}/.cache/files.json
     -
       match: .+\.rpm
-      exec: createrepo ${dest}/..
+      exec: createrepo ${basedir}/${dest}/..
   Remove:
     -
-      unlink: ${filepath}
+      unlink: ${basedir}/${filepath}
     -
-      create: fileList
+      create:
+        fileList:
+          src: ${basedir}
+          dest: ${basedir}/.cache/files.json
     -
       match: .+\.rpm
-      exec: createrepo ${dirname}/..
+      exec: createrepo ${basedir}/${dirname}/..
 
 List:
   ignore:
     - repodata
     - .cache
+  path: ${basedir}/.cache/files.json
+  create:
+    fileList:
+      src: ${basedir}
+      dest: ${basedir}/.cache/files.json
